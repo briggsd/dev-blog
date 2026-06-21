@@ -23,16 +23,24 @@ The goal is to publish nothing the sources don't actually support.
 ## Inputs
 
 1. The topic doc: `src/content/docs/topics/{slug}.md`.
-2. Its evidence: the captures behind its `## Sources`. For new pipeline work, captures live in
-   `intelligence/captures/`. For topics migrated from the vault, the captures live in the vault
-   (`~/vault/Intelligence/captures/`); ask the user or read there if needed.
-3. For surprising or load-bearing claims with thin local sourcing, the web (search + fetch) for
+2. Its evidence, in priority order:
+   - **The archived raw source is ground truth** — `intelligence/captures/{slug}.source.md` (or
+     `{slug}.sources/`), the verbatim text behind each capture. Check claims against this first.
+   - The capture summary (`intelligence/captures/{slug}.md`) is a convenience index, not proof. A claim
+     that matches the summary but not the raw source is still a finding (the summary drifted).
+   - If a capture has `source_archive: none`, there is no ground truth locally — fall back to web
+     corroboration and treat the claim as UNVERIFIABLE until corroborated.
+   - For topics migrated from the vault, archives/captures may live in `~/vault/Intelligence/captures/`;
+     ask the user or read there if needed.
+3. For surprising or load-bearing claims with no local archive, the web (search + fetch) for
    corroboration.
 
 ## Process
 
 ### 1. Load everything
-Read the full topic doc. Read each cited capture in full (not just frontmatter). Build a claim ledger.
+Read the full topic doc. For each cited capture, read its **archived raw source** in full (the
+`.source.md`), not just the capture summary. The raw source is what you verify against; the summary only
+tells you which archive to open. Build a claim ledger.
 
 ### 2. Extract every factual claim
 Pull out anything checkable, with its line number:
