@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import starlightBlog from 'starlight-blog';
 
 // Deployed to GitHub Pages project site by default:
 //   https://briggsd.github.io/dev-blog/
@@ -19,6 +20,18 @@ export default defineConfig({
 			],
 			customCss: ['@fontsource-variable/inter', './src/styles/theme.css'],
 			lastUpdated: true,
+			plugins: [
+				starlightBlog({
+					// The "stream": dated, single-source posts at /dev-blog/notes/.
+					// Topics (the evergreen "garden") stay in the sidebar below.
+					title: 'Notes',
+					prefix: 'notes',
+					navigation: 'header-end',
+					authors: {
+						wi: { name: 'Working Intelligence' },
+					},
+				}),
+			],
 			sidebar: [
 				{
 					label: 'Topics',

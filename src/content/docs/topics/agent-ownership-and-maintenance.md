@@ -68,4 +68,4 @@ This connects to how the labor market is starting to reward leverage over usage.
 
 ## Sources
 
-- [Most Teams Skip This Critical AI Agent Skill in 2026](https://www.youtube.com/watch?v=rh_PcL26zls) — Nate B Jones, YouTube. The agent-ownership thesis, the job/diet/boundaries/review-loop model, the personal-to-team-agent shift, the agent roster and owner card, the A2A analogy, and the prompting-to-delegation-to-maintenance progression.
+- [Most Teams Skip This Critical AI Agent Skill in 2026](https://www.youtube.com/watch?v=rh_PcL26zls) — Nate B Jones, YouTube. The agent-ownership thesis, the job/diet/boundaries/review-loop model, the personal-to-team-agent shift, the agent roster and owner card, the A2A analogy, and the prompting-to-delegation-to-maintenance progression. Covered in the note [Every Agent Needs an Owner](/dev-blog/notes/every-agent-needs-an-owner/).

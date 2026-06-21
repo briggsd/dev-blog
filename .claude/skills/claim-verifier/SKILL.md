@@ -1,12 +1,12 @@
 ---
 name: claim-verifier
 description: >
-  Adversarial accuracy gate for a topic before it publishes. Reads a topic doc in
-  src/content/docs/topics/ together with the captures behind its Sources, then checks every factual
-  claim — stats, dates, quotes, attributions, causal/empirical claims — against the source material.
-  Catches fabricated, drifted, misattributed, or mis-numbered claims, invented Source URLs, and leaked
-  private content. Runs after topic-validator and before the build in content-synthesis, and on demand:
-  "verify [topic]", "fact-check [topic]", "run a verification pass", "is this topic accurate".
+  Adversarial accuracy gate for any published artifact (a Note in src/content/docs/notes/ or a Topic in
+  src/content/docs/topics/) before it ships. Reads the artifact together with the verbatim source archive
+  behind it, then checks every factual claim — stats, dates, quotes, attributions, causal/empirical
+  claims — against the archived source. Catches fabricated, drifted, misattributed, or mis-numbered
+  claims, invented Source URLs, and leaked private content. Runs as the publish gate in content-synthesis
+  and on demand: "verify [note/topic]", "fact-check [x]", "run a verification pass", "is this accurate".
 ---
 
 # Claim Verifier (Working Intelligence)
@@ -16,21 +16,23 @@ The goal is to publish nothing the sources don't actually support.
 
 ## When it runs
 
-- **Inline (content-synthesis, after distillation + topic-validator, before the build check).** Verify
-  the topic(s) just written. Block publish on high-severity findings.
-- **Standalone.** "Verify ai-labor-market-2026" or "fact-check all topics."
+- **Inline (content-synthesis publish gate, after the note/topic is written and after topic-validator,
+  before the build check).** Verify every note and topic just written or changed. Block publish on
+  high-severity findings.
+- **Standalone.** "Verify the every-agent-needs-an-owner note" or "fact-check all topics."
 
 ## Inputs
 
-1. The topic doc: `src/content/docs/topics/{slug}.md`.
+1. The published artifact: a Note (`src/content/docs/notes/{slug}.md`) or a Topic
+   (`src/content/docs/topics/{slug}.md`).
 2. Its evidence, in priority order:
-   - **The archived raw source is ground truth** — `intelligence/captures/{slug}.source.md` (or
-     `{slug}.sources/`), the verbatim text behind each capture. Check claims against this first.
-   - The capture summary (`intelligence/captures/{slug}.md`) is a convenience index, not proof. A claim
-     that matches the summary but not the raw source is still a finding (the summary drifted).
-   - If a capture has `source_archive: none`, there is no ground truth locally — fall back to web
-     corroboration and treat the claim as UNVERIFIABLE until corroborated.
-   - For topics migrated from the vault, archives/captures may live in `~/vault/Intelligence/captures/`;
+   - **The verbatim source archive is ground truth** — `intelligence/archives/{slug}.source.md` (or
+     `{slug}.sources/`). Check claims against this first. Match the artifact to its archive by the
+     `archived_from` URL in the archive header and the artifact's Sources/links.
+   - If no archive exists for a source (e.g. it was paywalled and flagged at ingestion), there is no
+     local ground truth — fall back to web corroboration and treat the claim as UNVERIFIABLE until
+     corroborated.
+   - For topics migrated from the vault, source captures may live in `~/vault/Intelligence/captures/`;
      ask the user or read there if needed.
 3. For surprising or load-bearing claims with no local archive, the web (search + fetch) for
    corroboration.
@@ -38,9 +40,8 @@ The goal is to publish nothing the sources don't actually support.
 ## Process
 
 ### 1. Load everything
-Read the full topic doc. For each cited capture, read its **archived raw source** in full (the
-`.source.md`), not just the capture summary. The raw source is what you verify against; the summary only
-tells you which archive to open. Build a claim ledger.
+Read the full note or topic. For each source it draws on, read the **verbatim archive** in full
+(`intelligence/archives/{slug}.source.md`). The archive is what you verify against. Build a claim ledger.
 
 ### 2. Extract every factual claim
 Pull out anything checkable, with its line number:
