@@ -10,9 +10,8 @@ export default defineConfig({
 	base: '/dev-blog',
 	integrations: [
 		starlight({
-			title: 'Field Notes',
-			// TODO(confirm): working title + tagline — rename freely.
-			tagline: 'Notes on agentic engineering, AI labor markets, and how software gets built now.',
+			title: 'Working Intelligence',
+			tagline: 'Field notes on agentic engineering, AI labor markets, and how software gets built now.',
 			description:
 				'A running synthesis of how AI is reshaping software, work, and the way products get built.',
 			social: [
