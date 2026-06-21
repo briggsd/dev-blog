@@ -30,8 +30,11 @@ Driven by the `content-synthesis` and `topic-validator` skills in `../.claude/sk
 
 1. Share a link or drop a file in `_inbox/` → a capture lands in `captures/`.
 2. Strong captures distill into a published topic (concept-organized, public house style).
-3. `topic-validator` checks the topic for redundancy; `npm run build` verifies it.
-4. Guided research loop ("run a research cycle on X") turns a topic's open questions into new captures.
+3. `topic-validator` checks the topic for redundancy.
+4. `claim-verifier` adversarially fact-checks every claim against its sources — a blocking publish
+   gate that catches fabricated, drifted, misattributed, or mis-numbered claims and private leaks.
+5. `npm run build` verifies the topic builds.
+6. Guided research loop ("run a research cycle on X") turns a topic's open questions into new captures.
 
 ## Pruning signal
 

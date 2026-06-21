@@ -204,7 +204,11 @@ Skip if too thin or too niche.
    a link. The ` — ` separator between title and publisher is the one allowed em dash (list formatting).
 5. **Validate.** Run the `topic-validator` skill against each updated topic (catches concept-level
    redundancy from distillation). Fix high-confidence findings.
-6. **Build check.** Run `npm run build`. Watch for YAML frontmatter errors — quote any `description`
+6. **Verify (publish gate).** Run the `claim-verifier` skill against each updated topic. It
+   adversarially checks every claim — stats, dates, quotes, attributions — against the source captures,
+   plus Sources-URL integrity, the attribution rule, and private-leak. **Block publishing while any
+   blocking (🔴) finding stands.** Fix or qualify, then re-verify the changed claims.
+7. **Build check.** Run `npm run build`. Watch for YAML frontmatter errors — quote any `description`
    that contains a colon.
 
 **Topic template (Starlight):**
