@@ -15,16 +15,18 @@ description: >
 
 Turn external content into published knowledge. Two published artifacts, one private one:
 
-- **Note** — the *stream*. A dated, single-source post: "here's what this source said and why it
-  matters." Lives in `src/content/docs/notes/`. Published.
-- **Topic** — the *garden*. An evergreen, multi-source page that keeps evolving as new notes add to or
-  update it. Lives in `src/content/docs/topics/`. Published.
-- **Source archive** — the verbatim extracted source, the ground truth for verification. Lives in
+- **Note** — the *stream*. A dated short essay anchored to a trigger source and enriched with 2–4 outside
+  perspectives, that makes its own point. Not a recap of one source. Lives in `src/content/docs/notes/`.
+  Published.
+- **Topic** — the *garden*. An evergreen page that keeps evolving as new notes add to or update it. Lives
+  in `src/content/docs/topics/`. Published.
+- **Source archive** — the verbatim extracted sources, the ground truth for verification. Lives in
   `intelligence/archives/`. Private, gitignored, never published.
 
-A note is single-source and dated. A topic is multi-source and evergreen. They are different artifacts,
-so writing both is not duplication: the note is this source's take; the topic weaves many notes together
-over time. A topic links to the notes that fed it.
+A note is a dated, point-in-time piece: it argues something now and is not rewritten later. A topic is
+evergreen and continually revised. They are different artifacts, so writing both is not duplication: the
+note makes a timely argument; the topic accumulates understanding across many notes. A topic links to the
+notes that fed it.
 
 ## Where things live
 
@@ -32,7 +34,7 @@ over time. A topic links to the notes that fed it.
 |---|---|---|
 | Verbatim source archive (ground truth) | `intelligence/archives/{slug}.source.md` (or `{slug}.sources/`) | No — gitignored, local only |
 | Inbox drops | `intelligence/_inbox/` | No — gitignored |
-| Note (dated, single-source post) | `src/content/docs/notes/{slug}.md` | Yes |
+| Note (dated essay: anchor source + 2–4 outside perspectives) | `src/content/docs/notes/{slug}.md` | Yes |
 | Topic (evergreen, multi-source) | `src/content/docs/topics/{slug}.md` | Yes |
 | Usage/pruning signal | `intelligence/tools/lift_proxy.py` | n/a |
 
@@ -111,14 +113,21 @@ Extract via the methods above. For `_inbox` files, read directly.
 Present a brief summary and ask for depth/scope. Keep it fast:
 - **Title/source** — what this is
 - **Quick take** — 2–3 sentences
-- **Suggested note depth** (quick vs in-depth) and **which topic(s)** it should feed
+- **Suggested scope** (standard multi-perspective note vs a quick single-source capture) and **which
+  topic(s)** it should feed
 
-Then: "Quick note or in-depth note? And should it update a topic?" Default to a quick note.
+Then: "Standard note with outside perspectives, or a quick capture? And which topic should it feed?"
+Default to the standard multi-perspective note.
 
 ### Step 2.5: Archive the verbatim source (ground truth)
-Before writing anything, save the raw extracted text.
+Before writing anything, save the raw extracted text of the anchor source.
 - **Single source:** `intelligence/archives/{slug}.source.md`.
-- **Multiple sources:** `intelligence/archives/{slug}.sources/{n}-{label}.md`, one file per source.
+- **Multiple sources:** `intelligence/archives/{slug}.sources.md` (or a `{slug}.sources/` folder), one entry
+  per source.
+
+A standard note also cites the outside perspectives gathered in Step 3. Archive each source you cite here
+before writing, so the verifier has ground truth for every claim. Extracted content from a webfetch is
+fine; note when it's a summary rather than verbatim.
 
 ```markdown
 ---
@@ -137,7 +146,20 @@ archived: YYYY-MM-DD
 Keep it verbatim — do not paraphrase or trim. If a source can't be archived (paywalled, no transcript),
 note it; verification then falls back to web corroboration and the note is flagged lower-confidence.
 
-### Step 3: Write the Note (published, single-source)
+### Step 3: Research perspectives, then write the Note
+A note is an essay, not a recap. Anchor it to the trigger source, then bring in 2–4 outside perspectives
+so it stands on its own.
+
+1. **Gather perspectives.** Web-search the subject for sources that agree, disagree, extend, or add data
+   from a different vantage point. Aim for variety across kinds of source (practitioner, analyst /
+   research, vendor / platform, security, academic), not echoes of the anchor.
+2. **Fetch and archive each source you cite** (Step 2.5). Use only what you actually fetched. If a primary
+   page can't be fetched (paywall, 403), say so in the note and treat its figure as *reported*, not
+   verified. Drop shaky aggregator stats rather than launder them.
+3. **Write the essay**, not a source list. Use the anchor as the way in, then synthesize: where the
+   perspectives converge, where they conflict, and what it means. The note should make a point the anchor
+   alone doesn't.
+
 Write from the archived text, not from memory of the page. Create
 `src/content/docs/notes/{kebab-case-title}.md` using the starlight-blog frontmatter:
 
@@ -150,11 +172,13 @@ excerpt: One sentence for the notes list and tag pages.
 tags: [tag1, tag2]
 ---
 
-A readable, public post about this one source: its core argument, the useful specifics, and your read on
-it. Apply the publish house style as you write (see below). Attribute the source by name when public,
-and link to it. Close by linking any topic this feeds:
-[Topic Name](/dev-blog/topics/<slug>/).
+A readable, public essay: open from the anchor source, weave in the 2–4 outside perspectives, and land
+your own point. Apply the publish house style (below). Name and link public sources. Close by linking any
+topic this feeds: [Topic Name](/dev-blog/topics/<slug>/).
 ```
+
+**Quick-capture exception:** if the user asked for a quick capture, skip the perspective hunt and write a
+short single-source note, flagged as such in the body.
 
 **Publish house style (apply while writing, not after):**
 - **Attribution:** keep names/publishers from genuinely public sources (published videos, articles,
@@ -168,13 +192,19 @@ and link to it. Close by linking any topic this feeds:
 Tier 3 production artifacts (slides, briefing) are optional; produce with the `pptx`/`docx` skills and
 keep them local or attach to the note.
 
-### Step 4: Update the Topic (evergreen) when warranted
-Decide whether this source should feed an evergreen topic.
-**Trigger:** in-depth notes almost always do; quick notes do when they enrich an existing topic. Skip if
-too thin or too niche.
+### Step 4: Fold into a Topic, or create one (evergreen) when warranted
+Every substantial note should feed the garden. The skill folds the material into the best-fit existing
+topic, or creates a new topic when nothing fits. A single note can feed more than one topic.
+**Trigger:** standard notes almost always feed a topic; quick captures do when they enrich an existing one.
+Skip only if the material is too thin or too niche.
 
-1. **Scan existing topics** in `src/content/docs/topics/`.
-2. **Propose** concisely: which topic(s) this enriches and what it adds, or whether a new topic is warranted.
+1. **Scan existing topics** in `src/content/docs/topics/` (filenames + frontmatter) to find the best fit.
+2. **Propose, concisely** — one of:
+   - **Fold in** — name the existing topic(s) this enriches and exactly what it adds. Prefer this; the
+     garden compounds when material lands in a topic that already exists. A note can feed several.
+   - **Create new** — when the material fits no existing topic, propose a new topic using the Starlight
+     topic template below. A single-source seed is fine; mark it as seeded and expect later notes to grow it.
+   Then wait for the user's pick. (Don't silently create a near-duplicate of an existing topic — fold instead.)
 3. **On approval, distill — organized by concept, not by source.** Weave the new material into the
    existing structure so the topic reads as one coherent evolving document, never an append log. Same
    publish house style. Topic→topic and topic→note references become real Starlight links.

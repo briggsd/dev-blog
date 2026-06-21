@@ -35,9 +35,10 @@ Only `archives/` and `_inbox/` are gitignored — raw source and intake stay on 
 Driven by the `content-synthesis`, `topic-validator`, and `claim-verifier` skills in `../.claude/skills/`:
 
 1. Share a link or drop a file in `_inbox/` → the verbatim source is archived to `archives/{slug}.source.md`.
-2. A dated **Note** is written from that archive (public house style: sanitized, attribution rule, human-prose).
-3. When warranted, the material is distilled into an evergreen **Topic** (concept-organized), which links
-   back to the note and out to the original source.
+2. A dated **Note** is written: anchored to that source, enriched with 2–4 outside perspectives gathered
+   by web search (each archived), synthesized into its own argument. Public house style throughout.
+3. The material is folded into the best-fit evergreen **Topic** (concept-organized), or a new topic is
+   created when nothing fits. The topic links back to the note and out to the original sources.
 4. `topic-validator` checks topics for redundancy.
 5. `claim-verifier` adversarially fact-checks every claim against the **archived source** — a blocking
    publish gate that catches fabricated, drifted, misattributed, or mis-numbered claims and private leaks.
