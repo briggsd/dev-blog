@@ -1,0 +1,112 @@
+/* Field Notes — Stripe-flavored Starlight theme.
+   Tweaks Starlight's CSS custom properties; no component overrides. */
+
+:root {
+	/* Signature accent — Stripe "blurple", with a violet→indigo range. */
+	--sl-color-accent-low: #1c1b4d;
+	--sl-color-accent: #635bff;
+	--sl-color-accent-high: #c7c4ff;
+
+	--sl-color-white: #ffffff;
+	--sl-color-gray-1: #eceef2;
+	--sl-color-gray-2: #c0c2c7;
+	--sl-color-gray-3: #888b96;
+	--sl-color-gray-4: #545861;
+	--sl-color-gray-5: #353841;
+	--sl-color-gray-6: #24262d;
+	--sl-color-black: #0a0a0f;
+
+	/* Typography — Inter variable, loaded via @fontsource-variable/inter. */
+	--sl-font: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
+		Roboto, Helvetica, Arial, sans-serif;
+
+	--sl-line-height: 1.75;
+	--sl-content-width: 50rem;
+}
+
+/* Light palette */
+:root[data-theme='light'] {
+	--sl-color-accent-low: #dcdaff;
+	--sl-color-accent: #4b45d6;
+	--sl-color-accent-high: #1f1b66;
+
+	--sl-color-white: #0a0a0f;
+	--sl-color-gray-1: #24262d;
+	--sl-color-gray-2: #353841;
+	--sl-color-gray-3: #545861;
+	--sl-color-gray-4: #888b96;
+	--sl-color-gray-5: #c0c2c7;
+	--sl-color-gray-6: #eceef2;
+	--sl-color-gray-7: #f5f6f8;
+	--sl-color-black: #ffffff;
+}
+
+/* Tighter, more confident heading rhythm. */
+.sl-markdown-content h1,
+.sl-markdown-content h2,
+.sl-markdown-content h3 {
+	letter-spacing: -0.02em;
+	font-weight: 650;
+}
+
+.sl-markdown-content h2 {
+	margin-top: 2.5rem;
+	padding-bottom: 0.4rem;
+	border-bottom: 1px solid var(--sl-color-gray-5);
+}
+
+/* Hero: subtle radial glow behind the splash title. */
+.hero {
+	position: relative;
+}
+
+.hero::before {
+	content: '';
+	position: absolute;
+	inset: -20% -10% auto -10%;
+	height: 120%;
+	background: radial-gradient(
+		60% 60% at 30% 20%,
+		color-mix(in oklab, var(--sl-color-accent) 22%, transparent),
+		transparent 70%
+	);
+	z-index: -1;
+	pointer-events: none;
+	filter: blur(8px);
+}
+
+/* Gradient wash on the splash title. */
+.hero h1 {
+	background: linear-gradient(
+		120deg,
+		var(--sl-color-white),
+		color-mix(in oklab, var(--sl-color-accent) 70%, var(--sl-color-white))
+	);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	letter-spacing: -0.03em;
+}
+
+/* Primary CTA buttons: solid accent with a soft lift. */
+.hero .action.primary {
+	background: var(--sl-color-accent);
+	border: none;
+	box-shadow: 0 8px 24px -8px color-mix(in oklab, var(--sl-color-accent) 60%, transparent);
+	transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.hero .action.primary:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 12px 30px -8px color-mix(in oklab, var(--sl-color-accent) 70%, transparent);
+}
+
+/* Card grid hover polish on the landing page. */
+.card {
+	transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.card:hover {
+	border-color: var(--sl-color-accent);
+	transform: translateY(-2px);
+}
