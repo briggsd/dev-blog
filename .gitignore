@@ -19,3 +19,8 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+
+# Intelligence pipeline: raw captures + inbox stay local-only (private).
+# Only distilled, sanitized topics in src/content/docs/topics/ get published.
+intelligence/captures/
+intelligence/_inbox/
