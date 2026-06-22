@@ -34,6 +34,8 @@ When a task requires Claude Code to drive a browser (testing UIs, scraping behin
 
 ## Context engineering and session management
 
+These are the Claude Code-specific applications of a broader discipline; the concept (finite attention budget, the levers, long-horizon management) lives in [Context Engineering](/working-intel/topics/context-engineering/).
+
 ### Freshness beats fullness
 
 A lean, focused context window produces better output than a rich but bloated one. This sounds obvious but has counter-intuitive implications for how you work.

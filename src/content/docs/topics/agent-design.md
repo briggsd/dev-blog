@@ -190,7 +190,7 @@ There is also a model-empathy constraint. Same-model meta/task pairings outperfo
 
 ### Dynamic workflow design patterns (Claude Code)
 
-Anthropic's June 2026 guide to Claude Code dynamic workflows gives a named vocabulary for multi-agent orchestration shapes. The core premise: a single long-running context window degrades in three specific ways. Agent laziness (it gives up on later tasks), self-preference bias (it over-rates its own output), and goal drift (the original intent erodes through compaction and summarization). Dynamic workflows fix all three by distributing work across many fresh-context subagents instead of accumulating it in one session.
+Anthropic's June 2026 guide to Claude Code dynamic workflows gives a named vocabulary for multi-agent orchestration shapes. The core premise: a single long-running context window degrades in three specific ways. Agent laziness (it gives up on later tasks), self-preference bias (it over-rates its own output), and goal drift (the original intent erodes through compaction and summarization). Dynamic workflows fix all three by distributing work across many fresh-context subagents instead of accumulating it in one session. These patterns are one answer to the long-horizon question framed in [Context Engineering](/working-intel/topics/context-engineering/) (share context or isolate it); the share-versus-isolate debate lives there.
 
 Think of workflows as on-the-fly harness construction: Claude Code builds a task-specific machine on demand, then runs it. Six named patterns describe the shapes that machine can take.
 
