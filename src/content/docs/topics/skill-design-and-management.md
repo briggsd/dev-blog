@@ -317,3 +317,11 @@ command, output shape, or trigger language.
 - [Orchestrating AI Code Review at scale](https://blog.cloudflare.com/ai-code-review/) — Ryan Skidmore, Cloudflare. Source for the AGENTS.md freshness reviewer, instruction-file rot signals, and the anti-patterns including generic filler, oversized instruction files, and tool names without runnable commands.
 - [I Ranked Cloudflare's Software Factory and Wow… S TIER TOKENOMICS](https://www.youtube.com/watch?v=YG4t7aMY81c) — YouTube. Commentary critique that shared agents.md surfaces become overloaded and may need workflow-specific instruction scopes.
 - [Matt Pocock's Agentic Engineering Workflow](https://www.youtube.com/watch?v=nQwJVHCtDDY) — YouTube. Source for procedures vs. abilities and the description-leak tax, `disable model invocation: true` as the context-leak lever, stateful vs. stateless skills with `teach` as the stateful exemplar, the knowledge/skills/wisdom decomposition, and the blank-slate reset as a library-hygiene discipline.
+
+## Changelog
+
+- **2026-06-21** — Migrated to the public site; sanitized and run through the publish pipeline.
+- **2026-06-09** — Added instruction-freshness reviewers.
+- **2026-06-01** — Added conditional rule files and cross-agent sync.
+- **2026-05-20** — Added the composability framework (skills, MCPs, sub-agents, hooks, plugins) and the Claude-owned skill lifecycle.
+- **2026-04-16** — Topic created: the description field as the skill's API, agent-first design, the three-tier team architecture, quantitative testing and versioning, and the skill lifecycle.

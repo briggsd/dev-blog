@@ -1,7 +1,7 @@
 ---
 title: Product Thinking in the AI Era
 description: The scarce skill is no longer execution but knowing what to build and for whom — how product thinking changes once AI makes code cheap to produce.
-lastUpdated: 2026-05-29
+lastUpdated: 2026-06-21
 ---
 
 "Product thinking" connects work to users, outcomes, and the "why" behind what gets built. The discipline is changing as AI makes code cheaper to produce than ever. The central claim this topic tracks: the scarce skill is no longer execution. It's knowing what to build and for whom. AI didn't create the gap between engineering and outcomes; it made that gap more economically visible.
@@ -142,3 +142,9 @@ The topic runs broader than "what this book says." The cross-cutting questions s
 - [Nate B Jones — AI News & Strategy Daily](https://www.youtube.com/@NateBJones) — YouTube. The capability-to-economics phase shift, the four-or-five future roles, and working intelligence as a fifth category of professional capital.
 - [Agent Analytics: Why Product Metrics Need to Change for AI Agents](https://www.youtube.com/watch?v=n0nC1kmztSk) — YouTube. The Salesforce AWU shift from seat and session metrics to work-unit primitives, the completion-versus-acceptance gap, and agent corrections as labeled product data.
 - [When to Automate, Build, Buy, Hire, or Wait on AI](https://www.youtube.com/watch?v=LIkYVsxMpS8) — Nate Jones, YouTube. Workflow-first investment thinking, the five investment levers, the "do not automate what you cannot describe" maxim, and the "what good looks like" problem in build decisions.
+
+## Changelog
+
+- **2026-06-21** — Migrated to the public site; sanitized and run through the publish pipeline.
+- **2026-06-01** — Added workflow-first investment thinking and the agent-work-unit metric shift.
+- **2026-05-20** — Topic created: the disconnection diagnosis, the "why" litmus test, the roadmap-momentum trap, the capability-to-economics phase shift, and the new coordination roles.

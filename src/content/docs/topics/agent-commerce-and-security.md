@@ -1,7 +1,7 @@
 ---
 title: Agent Commerce and Security
 description: "Agents can now hold money and act on the web, and the serious builders have converged on one rule: treat the agent as a potential adversary."
-lastUpdated: 2026-04-19
+lastUpdated: 2026-06-21
 ---
 
 Agents can now hold money, pay for things, and act on the web. The infrastructure layer that makes this possible arrives with a security doctrine the serious actors have converged on: every primitive that makes an agent more capable also makes it more dangerous, so you treat the agent as a potential adversary rather than a trusted employee.
@@ -109,3 +109,9 @@ The mobile analogy sharpens positioning for work that leans on agent-native prim
 ## Sources
 
 - [Nate B Jones — Channel Rollup (2026-04-13 to 2026-04-19)](https://www.youtube.com/@NateBJones) — Nate B. Jones, YouTube. Source for X402/Coinbase agentic wallets (50M transactions, 10K agents in 24 hours, non-custodial enclave isolation), Stripe shared payment tokens and the Radar retraining, the agent-as-adversary doctrine across Ion Claw, OpenAI's shell tool, and Coinbase wallets, the cascading attack surface, and the mobile-fork analogy.
+
+## Changelog
+
+- **2026-06-21** — Migrated to the public Working Intelligence site; sanitized and run through the house-style and claim-verification pipeline.
+- **2026-06-01** — Refined wording and sources.
+- **2026-05-20** — Topic created: the agent-as-adversary security doctrine, x402 and Coinbase agentic wallets, Stripe shared payment tokens, the cascading attack surface, and MCP as the commerce-infrastructure layer.

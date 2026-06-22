@@ -1,7 +1,7 @@
 ---
 title: Portable Professional AI Context
 description: Memory has replaced models as the moat of 2026, and your accumulated AI context is a portable career asset you should own rather than rent from a platform.
-lastUpdated: 2026-04-21
+lastUpdated: 2026-06-21
 ---
 
 The context, calibration, and operational knowledge that make you effective with AI tools are a professional asset. Treat that asset as something you own and carry between tools rather than something locked inside one platform. Nate B Jones puts the thesis at its sharpest: "Memory has replaced models as the moat of 2026." The platforms that built retention around your accumulated context are winning. Individuals and organizations face one strategic question: keep pouring context into walled gardens, or start treating it as an asset that travels with you.
@@ -177,3 +177,9 @@ For individuals, the practical move is to run a Layer 4 elicitation against your
 
 - [Nate B Jones — Channel Rollup (2026-04-13 to 2026-04-19)](https://www.youtube.com/@NateBJones) — Nate B. Jones, YouTube. Source for the memory-moat thesis, the four layers of context, working intelligence as the fifth category, why nobody has solved it, the tacit-knowledge trap, the three chronic people problems, the bottoms-up KM revolution, the four-layer solution architecture, and the IT-department negotiation frame.
 - [Five Principles for Proving Your Worth in 2026](https://www.youtube.com/watch?v=-dJ9WrTG6zQ) — Nate B. Jones, YouTube. Source for explanation-as-artifact (the four-question format), Talent Board as the first concrete platform for the artifact layer, and the insight that the explanation must be inseparable from the deliverable or it becomes an invitation to spam.
+
+## Changelog
+
+- **2026-06-21** — Migrated to the public site; sanitized and run through the publish pipeline.
+- **2026-06-01** — Refined wording and sources.
+- **2026-05-20** — Topic created: the memory-moat thesis, the four layers of accumulated context, the tacit-knowledge trap, the solution architecture, and the IT-negotiation frame.

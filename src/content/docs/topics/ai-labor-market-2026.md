@@ -1,7 +1,7 @@
 ---
 title: AI Labor Market 2026
 description: The Red Queen goes industry-wide — selection pressure on AI fluency, the junior-pipeline collapse, compensation polarization, and what it means for how careers and companies are built.
-lastUpdated: 2026-05-29
+lastUpdated: 2026-06-21
 ---
 
 AI is reshaping the knowledge-work labor market in 2026. This tracks what changed,
@@ -369,3 +369,9 @@ fluency without capturing it.
 - [The 5 Levels of AI Coding (Why Most of You Won't Make It Past Level 2)](https://www.youtube.com/watch?v=bDcgHzCBgmQ) — Nate B. Jones, YouTube. Source for the junior-pipeline collapse numbers (US -67%, UK -46%/-53%, Harvard RCT), the AI-native startup revenue benchmarks (Cursor, Midjourney, Lovable, $3M+/employee, 5–6× the SaaS average), the new floor for junior skills, and the medical-residency replacement model.
 - [METR RCT: Experienced Developers 19% Slower with AI Tools](https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/) — METR. Primary-source RCT showing a 19% slowdown, the perception gap, the five contributing factors, and the J-curve as a measured phenomenon.
 - [When to Automate, Build, Buy, Hire, or Wait on AI](https://www.youtube.com/watch?v=LIkYVsxMpS8) — Nate B. Jones, YouTube. Source for the purple-unicorn trap, the hire-against-a-workflow-gap framework, and the broken AI hiring market (AI-generated resumes, months to clear roles, the double fog).
+
+## Changelog
+
+- **2026-06-21** — Migrated to the public site; sanitized and run through the publish pipeline.
+- **2026-06-01** — Added the purple-unicorn trap and workflow-specific hiring.
+- **2026-05-20** — Topic created: the Red Queen framework, the Lütke memo, selection pressure, compensation polarization, and the junior-pipeline collapse.

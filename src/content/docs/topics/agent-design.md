@@ -1,7 +1,7 @@
 ---
 title: Agent Design
 description: Principles and patterns for building AI agent systems that produce reliable, predictable outcomes across harnesses, task suitability, autonomy, error recovery, multi-agent workflows, and the analytics that steer them.
-lastUpdated: 2026-06-09
+lastUpdated: 2026-06-21
 ---
 
 This collects principles and patterns for designing AI agents and agent pipelines that produce reliable, predictable outcomes. It covers how agents invoke tools and skills, how to handle failures, how to calibrate autonomy, how to test, and how to coordinate multiple agents. The design layer sits on top of a production-platform layer (session durability, execution isolation, orchestration substrate, shared tools) that has its own concerns; this page stays with design.
@@ -358,3 +358,13 @@ These work as a finding pattern, not just an automation pattern. Even before you
 - [Orchestrating AI Code Review at scale](https://blog.cloudflare.com/ai-code-review/) — Ryan Skidmore, Cloudflare. Source for production review-agent design: specialist reviewer domains, explicit prompt non-goals, structured severity output, coordinator fusion, approval bias, and incremental re-review state.
 - [I Ranked Cloudflare's Software Factory and Wow… S TIER TOKENOMICS](https://www.youtube.com/watch?v=YG4t7aMY81c) — YouTube. Source for framing the Cloudflare review system as an A-tier agentic-engineering pattern with strong tokenomics and resilience, reinforcing risk-tiered specialist teams and observability as design constraints.
 - [I Built The Best Claude Memory System (Beats Hermes)](https://www.youtube.com/watch?v=H9BUkgDf5Y4) — Simon Scrapes, YouTube. Source for memory decomposed into storage, injection, and recall, each with orthogonal design dials; best-of-breed assembly; multi-tier short-circuit recall; and cited-answer-over-chunks as the provenance principle.
+
+## Changelog
+
+- **2026-06-21** — Migrated to the public site; sanitized and run through the publish pipeline.
+- **2026-06-11** — Added memory as a harness component (storage / injection / recall).
+- **2026-06-09** — Added production review agents (specialize, scope, fuse).
+- **2026-06-08** — Added the agent-initiated vent tool and dynamic workflow design patterns.
+- **2026-06-01** — Split the production-infrastructure material into the new Agent Infrastructure topic; added task suitability, the Aquifer session/harness/sandbox decomposition, agents-as-profiles, blueprint orchestration, run-level analytics, and brownfield patterns.
+- **2026-05-20** — Expanded with the harness definition, the four species of agent systems, the meta/task split, model empathy, trace quality, and emergent harness behaviors.
+- **2026-04-16** — Topic created: error recovery, handoffs and contracts, tool discovery, autonomy levels, pipeline testing, and multi-agent disagreement.

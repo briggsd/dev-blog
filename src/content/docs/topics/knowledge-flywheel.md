@@ -1,7 +1,7 @@
 ---
 title: The Knowledge Flywheel
 description: A self-reinforcing system where consuming content builds structured knowledge, that knowledge surfaces open questions, and answering them deepens the corpus so each cycle compounds.
-lastUpdated: 2026-06-03
+lastUpdated: 2026-06-21
 ---
 
 A knowledge flywheel turns consumption into compounding understanding. Consuming content generates structured knowledge, structured knowledge surfaces open questions, and those questions drive targeted research that deepens the knowledge further. Each cycle makes the next one more valuable, because richer context lets you connect new material to what you already hold.
@@ -132,3 +132,10 @@ The June 2026 lift-proxy audit shifted the priority order. The instinct was to b
 - [I Built The Best Claude Memory System (Beats Hermes)](https://www.youtube.com/watch?v=H9BUkgDf5Y4) — Simon Scrapes (YouTube). The storage, injection, and recall decomposition of agent memory, which maps the vault's plumbing and names the retrieval upgrade path.
 - "Counterfactual / Off-Policy Measurement of Injected Knowledge" — research synthesis grounding the holdout in named literature: Bottou's counterfactual-reasoning work, inverse propensity scoring, and doubly-robust estimation.
 - "Context Rot and Knowledge-Bank Pruning" — research synthesis on why an accumulated knowledge bank degrades, drawing on Chroma's context-rot study (18 models) and Anthropic's context-engineering guidance.
+
+## Changelog
+
+- **2026-06-21** — Migrated to the public site; sanitized and run through the publish pipeline.
+- **2026-06-08** — Added measured usefulness and pruning, and the retrieval gap.
+- **2026-06-01** — Added Shopify's River corpus as a real-world instantiation.
+- **2026-04-16** — Topic created: the consume-structure-question-research pipeline, depth over breadth, quality control, and guided research.

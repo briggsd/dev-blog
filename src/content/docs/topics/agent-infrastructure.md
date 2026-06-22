@@ -272,3 +272,10 @@ The right team analogy is not "build Aquifer." It is "build the things that help
 - [The 5 Pillars of Agentic Engineering](https://www.youtube.com/watch?v=2KcITKKJikA) — IndyDevDan, YouTube. Source for harness sovereignty ("own, don't rent"), domain-specific harnesses as the specialization moat, extensibility as a survival property (open/closed across two arenas), and agentic access plus the "token tax."
 - [Pi2Pi: Two-Way Agent Communication](https://www.youtube.com/watch?v=PIdETjcXNIk) — IndyDevDan, YouTube. Source for peer-to-peer flat bidirectional communication, the flat-beats-hierarchical information argument, context specialization as the real payoff, the builder-plus-validator cross-check (10 corrections), and the four-tool primitive plus failure modes.
 - Extensibility Principles and the Plugin-Architecture Lineage (research-cycle synthesis, no single source URL) — synthesis of documented harness philosophy and the plugin-architecture lineage (microkernel, OCP, Parnas information-hiding, GoF encapsulate-what-varies, Unix mechanism/policy, VS Code declarative-versus-programmatic contribution, stable-dependencies), and the six-point seam-decision heuristic.
+
+## Changelog
+
+- **2026-06-21** — Migrated to the public site; sanitized and run through the publish pipeline.
+- **2026-06-09** — Added the CI-native review factory (Cloudflare pattern).
+- **2026-06-08** — Added harness sovereignty, extensibility as a survival property, and peer-to-peer agent communication.
+- **2026-06-01** — Topic created by splitting Agent Design: the Aquifer session/harness/sandbox decomposition, agents-as-profiles, multiplayer by construction, blueprint orchestration, and the Toolshed shared-tool layer.

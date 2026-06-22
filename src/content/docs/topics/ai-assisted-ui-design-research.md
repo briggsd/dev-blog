@@ -1,7 +1,7 @@
 ---
 title: AI-Assisted UI Design Research
 description: A repeatable workflow for running AI-assisted UI research that ends in a locked, defensible design decision instead of a pile of mood boards.
-lastUpdated: 2026-04-18
+lastUpdated: 2026-06-21
 ---
 
 A significant UI or aesthetic decision cascades across dozens of surfaces, and getting it wrong is expensive to undo. This is a repeatable workflow for using an AI assistant to run that research and land on a locked, defensible decision. Treat it as a living document: append new pitfalls and refinements as they surface across projects.
@@ -134,3 +134,8 @@ If future-you can't reconstruct the decision from the SUMMARY alone, the researc
 This playbook comes from a single internal design-research session (April 2026), distilled into the workflow above. No public capture backs it yet.
 </content>
 </invoke>
+
+## Changelog
+
+- **2026-06-21** — Migrated to the public site; sanitized and run through the publish pipeline.
+- **2026-05-20** — Topic created: the five-phase research workflow, the decision-record template, best practices, and pitfalls.

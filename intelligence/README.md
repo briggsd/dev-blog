@@ -8,7 +8,8 @@ work, decoupled from any personal vault.
 - **Notes** (`../src/content/docs/notes/`) — the *stream*: dated, single-source posts. "Here's what this
   source said and why it matters." Published.
 - **Topics** (`../src/content/docs/topics/`) — the *garden*: evergreen, multi-source pages that keep
-  evolving as new notes add to or update them. Published.
+  evolving as new notes add to or update them. Each carries a `## Changelog` at the bottom recording its
+  revisions, since the document changes over time. Published.
 - **Source archives** (`archives/`) — the verbatim extracted source, the ground truth for verification.
   Private, gitignored, never published.
 

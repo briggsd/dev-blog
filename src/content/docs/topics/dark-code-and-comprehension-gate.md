@@ -1,7 +1,7 @@
 ---
 title: Dark Code and the Comprehension Gate
 description: A class of production code that nobody ever understood — why AI authorship plus velocity creates it, why the obvious fixes fail, and the three-layer fix converging across AI-native organizations.
-lastUpdated: 2026-04-21
+lastUpdated: 2026-06-21
 ---
 
 A class of code now runs in production that nobody understood at any point in its
@@ -434,3 +434,9 @@ AI-native companies.
 - [CI/CD Pipelines for AI-Generated Code](https://dasroot.net/posts/2026/04/ci-cd-pipelines-ai-generated-code/) — dasroot.net. Source for the 80% PR intervention rate, the 41% AI-generated code share, and the AI decision-layer tooling that acts as the downstream safety net.
 - [Six Months of Agentic Coding in the Trenches](https://www.yduman.dev/posts/six-months-of-agentic-coding/) — Yadullah Duman. A brownfield case study showing the human-in-the-loop protocol as a comprehension gate in practice and the RPI workflow as spec-driven development in action.
 - [Harness Engineering: Leveraging Codex in an Agent-First World](https://openai.com/index/harness-engineering/) — Ryan Lopopolo, OpenAI. The first-party dark factory account: docs as system of record, quality grades, lint as comprehension gate, doc-gardening agents, and exec plans as repo artifacts.
+
+## Changelog
+
+- **2026-06-21** — Migrated to the public site; sanitized and run through the publish pipeline.
+- **2026-06-01** — Refined wording and sources.
+- **2026-05-20** — Topic created: dark code defined, why it multiplies, why the obvious fixes fail, the three-layer fix, the compliance argument, and the 80% PR-intervention signal.

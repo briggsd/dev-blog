@@ -212,7 +212,13 @@ Skip only if the material is too thin or too niche.
    `archived_from` URL: `- [<title>](<real url>) — <publisher/author>. <one-line descriptor>.` Link to
    the internal note too when one exists. Use only real URLs; never invent one. The ` — ` separator is
    the one allowed em dash (list formatting).
-5. **Validate.** Run `topic-validator` on each updated topic. Fix high-confidence redundancy.
+5. **Changelog.** Topics are evolving documents, so record each revision. Add or update a `## Changelog`
+   section at the very bottom (after `## Sources`), reverse-chronological, one dated bullet per
+   distillation: `- **YYYY-MM-DD** — what changed (concepts added, sections merged or split, attributions
+   corrected). Link the feeding note.` The same ` — ` separator rule applies (list formatting). Bump the
+   frontmatter `lastUpdated` to the same date. Describe the change, not the source; keep each entry to a
+   line. A new topic starts with a single `- **YYYY-MM-DD** — Topic created: <seed concepts>.` entry.
+6. **Validate.** Run `topic-validator` on each updated topic. Fix high-confidence redundancy.
 
 ### Step 5: Verify (publish gate)
 Run `claim-verifier` against every note and topic you wrote or changed. It checks each claim against the

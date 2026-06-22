@@ -231,3 +231,10 @@ Running multiple Claude instances on the same project at once requires git workt
 - [The One AI Writing Hack Nobody Talks About](https://www.youtube.com/watch?v=ltbzgzZZmgI) — Nate B. Jones, YouTube. Source for the data-room pattern, the writing prompt shrinking as the data room grows, and the source-inventory, conflict-log, missing-context, and duplicates artifacts.
 - [I Built The Best Claude Memory System (Beats Hermes)](https://www.youtube.com/watch?v=H9BUkgDf5Y4) — Simon Scrapes, YouTube. Source for the storage, injection, and recall decomposition of Claude Code's native memory and the per-job patch for each.
 - [Matt Pocock's Agentic Engineering Workflow](https://www.youtube.com/watch?v=nQwJVHCtDDY) — Matt Pocock, YouTube. Source for the blank-slate reset and the model-adoption heuristic (wait about a month, keep the harness agent-agnostic).
+
+## Changelog
+
+- **2026-06-21** — Migrated to the public site; sanitized and run through the publish pipeline.
+- **2026-06-11** — Added Claude Code's native memory (storage / injection / recall) and how to patch each.
+- **2026-06-01** — Added the data-room session setup as the upstream fix for hallucinations.
+- **2026-05-20** — Topic created: validation loops, context engineering, CLAUDE.md design, external review, and parallel orchestration with worktrees.
