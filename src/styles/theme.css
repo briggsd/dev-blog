@@ -107,16 +107,8 @@ starlight-toc h2,
 .wi-topnav__link.is-active {
 	color: var(--sl-color-accent);
 }
-.wi-topnav__link--ext:hover {
-	color: var(--sl-color-white);
-}
-/* On narrow viewports the header is a tight single row; hide the inline nav
-   there (mobile cross-section nav via the menu is a follow-up). */
-@media (max-width: 50rem) {
-	.wi-topnav {
-		display: none;
-	}
-}
+/* The nav lives in the header right-group, which Starlight already hides below
+   50rem (mobile cross-section nav via the menu is a follow-up). */
 
 /* Metadata: last-updated, breadcrumbs, footer. */
 .meta,

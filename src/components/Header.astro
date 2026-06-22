@@ -17,6 +17,7 @@ const shouldRenderSearch =
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const here = Astro.url.pathname.replace(/\/$/, '');
+// github lives in the social icons already, so the text nav is just sections.
 const navItems = [
 	{ label: 'topics', href: `${base}/topics` },
 	{ label: 'notes', href: `${base}/notes` },
@@ -28,7 +29,10 @@ const isActive = (href: string) => here === href || here.startsWith(href + '/');
 	<div class="title-wrapper sl-flex">
 		<SiteTitle />
 	</div>
-	<div class="sl-flex print:hidden header-center">
+	<div class="sl-flex print:hidden">
+		{shouldRenderSearch && <Search />}
+	</div>
+	<div class="sl-hidden md:sl-flex print:hidden right-group">
 		<nav class="wi-topnav" aria-label="Primary">
 			{
 				navItems.map((item) => (
@@ -40,16 +44,7 @@ const isActive = (href: string) => here === href || here.startsWith(href + '/');
 					</a>
 				))
 			}
-			<a
-				class="wi-topnav__link wi-topnav__link--ext"
-				href="https://github.com/briggsd/dev-blog"
-				target="_blank"
-				rel="noopener noreferrer">github</a
-			>
 		</nav>
-		{shouldRenderSearch && <Search />}
-	</div>
-	<div class="sl-hidden md:sl-flex print:hidden right-group">
 		<div class="sl-flex social-icons">
 			<SocialIcons />
 		</div>
@@ -74,13 +69,6 @@ const isActive = (href: string) => here === href || here.startsWith(href + '/');
 			/* Avoid clipping focus ring around link inside title wrapper. */
 			padding: 0.25rem;
 			margin: -0.25rem;
-			min-width: 0;
-		}
-
-		.header-center {
-			gap: var(--sl-nav-gap);
-			align-items: center;
-			flex: 1 1 auto;
 			min-width: 0;
 		}
 
