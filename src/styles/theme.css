@@ -8,9 +8,10 @@
    on a light OS preference still get the terminal look) ---- */
 :root,
 :root[data-theme='light'] {
-	--sl-color-accent-low: #422006; /* deep amber, used for low-emphasis fills */
-	--sl-color-accent: #f59e0b; /* amber-500, the signature */
-	--sl-color-accent-high: #fcd34d; /* amber-300, links and accent text */
+	--sl-color-accent-low: #3a1c0b; /* deep burnt orange, low-emphasis fills */
+	--sl-color-accent: #d2691e; /* burnt orange, the signature */
+	--sl-color-accent-high: #f29a5b; /* lighter burnt orange, links and accent text */
+	--wi-accent-rgb: 210, 105, 30; /* var(--sl-color-accent) as rgb, for tints */
 
 	--sl-color-white: #f4f4f5; /* headings, strongest text */
 	--sl-color-gray-1: #e4e4e7;
@@ -382,7 +383,7 @@ footer .meta,
 }
 .wi-log__node.is-latest {
 	border-color: var(--sl-color-accent);
-	box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+	box-shadow: 0 0 0 3px rgba(var(--wi-accent-rgb), 0.18);
 }
 .wi-log__link {
 	display: block;
@@ -393,7 +394,7 @@ footer .meta,
 	font-family: var(--wi-mono);
 	font-size: 0.72rem;
 	color: var(--sl-color-accent-high);
-	background: rgba(245, 158, 11, 0.1);
+	background: rgba(var(--wi-accent-rgb), 0.13);
 	padding: 0.1rem 0.45rem;
 	border-radius: 2px;
 	margin-bottom: 0.5rem;
