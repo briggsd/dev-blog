@@ -58,7 +58,7 @@ Catching up with AI in 2026 does not mean owning the most agents or knowing ever
 
 The decision rule is compact. If a system reads important context, produces work you or your team act on, or touches a workflow other people depend on, it needs an owner. If it is yours, you own it. If it belongs to the team, the team names one person. If nobody is willing to own it, it probably should not be doing important work, and decommissioning is the honest move.
 
-This connects to how the labor market is starting to reward leverage over usage. Claiming "I'm AI native" in a performance review because you spun up three agents is the anti-pattern. Owning agents that deliver measured value is the version that holds up, which is the same leverage-over-activity signal running through the [AI labor market in 2026](/dev-blog/topics/ai-labor-market-2026/).
+This connects to how the labor market is starting to reward leverage over usage. Claiming "I'm AI native" in a performance review because you spun up three agents is the anti-pattern. Owning agents that deliver measured value is the version that holds up, which is the same leverage-over-activity signal running through the [AI labor market in 2026](/working-intel/topics/ai-labor-market-2026/).
 
 ## Open questions
 
@@ -68,7 +68,7 @@ This connects to how the labor market is starting to reward leverage over usage.
 
 ## Sources
 
-- [Most Teams Skip This Critical AI Agent Skill in 2026](https://www.youtube.com/watch?v=rh_PcL26zls) — Nate B Jones, YouTube. The agent-ownership thesis, the job/diet/boundaries/review-loop model, the personal-to-team-agent shift, the agent roster and owner card, the A2A analogy, and the prompting-to-delegation-to-maintenance progression. Covered in the note [Every Agent Needs an Owner](/dev-blog/notes/every-agent-needs-an-owner/).
+- [Most Teams Skip This Critical AI Agent Skill in 2026](https://www.youtube.com/watch?v=rh_PcL26zls) — Nate B Jones, YouTube. The agent-ownership thesis, the job/diet/boundaries/review-loop model, the personal-to-team-agent shift, the agent roster and owner card, the A2A analogy, and the prompting-to-delegation-to-maintenance progression. Covered in the note [Every Agent Needs an Owner](/working-intel/notes/every-agent-needs-an-owner/).
 
 ## Changelog
 

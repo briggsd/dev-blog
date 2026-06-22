@@ -30,7 +30,7 @@ A living asset needs an owner, which is where Bhaumik's last lessons land. The t
 
 The lesson under the playbook is the one worth keeping. The model question feels urgent because the model is the new and exciting part. The work that decides whether an agent survives production is the measurement and governance system around it, and that work is mostly the unglamorous engineering teams already know how to do. Build it first, and the model becomes a swappable, last decision.
 
-This note feeds [Taking Agents to Production](/dev-blog/topics/taking-agents-to-production/).
+This note feeds [Taking Agents to Production](/working-intel/topics/taking-agents-to-production/).
 
 ## Sources
 

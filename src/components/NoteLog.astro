@@ -3,7 +3,7 @@
 // auto-generated from the notes collection. Newest first.
 import { getCollection } from 'astro:content';
 
-const base = import.meta.env.BASE_URL.replace(/\/$/, ''); // "/dev-blog", no trailing slash
+const base = import.meta.env.BASE_URL.replace(/\/$/, ''); // "/working-intel", no trailing slash
 const LIMIT = 6;
 const notes = (await getCollection('docs', (e) => e.id.startsWith('notes/')))
 	.sort((a, b) => (b.data.date?.getTime?.() ?? 0) - (a.data.date?.getTime?.() ?? 0))

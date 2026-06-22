@@ -6,7 +6,7 @@ lastUpdated: 2026-06-21
 
 Most agent projects die the same way. Leadership feels pressure to ship something with AI, the first question is which model to use, a team demos features on clean data, and a few weeks into production nobody can explain what the agent is actually doing or why it stopped working. The demo never scaled, and the spend returned nothing.
 
-This topic tracks the operational discipline that gets an agent from demo to production and keeps it there. It sits above the runtime substrate ([Agent Infrastructure](/dev-blog/topics/agent-infrastructure/)) and the agent's own behavior ([Agent Design](/dev-blog/topics/agent-design/)): the measurement, observability, and governance system that proves an agent is reliable and holds it reliable under real traffic. The load-bearing claim, which the field has converged on, is that production agents rarely fail at the model. They fail across the trajectory, so reliability is a property of the system around the model rather than the model itself.
+This topic tracks the operational discipline that gets an agent from demo to production and keeps it there. It sits above the runtime substrate ([Agent Infrastructure](/working-intel/topics/agent-infrastructure/)) and the agent's own behavior ([Agent Design](/working-intel/topics/agent-design/)): the measurement, observability, and governance system that proves an agent is reliable and holds it reliable under real traffic. The load-bearing claim, which the field has converged on, is that production agents rarely fail at the model. They fail across the trajectory, so reliability is a property of the system around the model rather than the model itself.
 
 ## Key concepts
 
@@ -24,7 +24,7 @@ Naming the gaps first, before any code or model talk, is what separates a projec
 
 Evaluation is the spec for an AI system, and it comes before code, features, or models. Defining success means business numbers, not "accuracy" in the abstract: for a support chatbot, deflect some target percentage of simple queries at some target accuracy and latency. The test set comes from domain experts, not intuition. Sit with the humans doing the job today, collect their real answers to real questions, and capture what they do in the confusing edge cases. That golden dataset becomes an automated pipeline: live responses score against it continuously, low-scoring responses route to a human, and every fix becomes a new case.
 
-The dataset is a living, owned asset. It starts small (one banking build seeded it with 200 real cases) and compounds as production surfaces new failures. The bigger and better-curated it grows, the stronger the system, which makes it the closest thing an agent program has to a moat. This is the same accumulate-and-measure dynamic the [Knowledge Flywheel](/dev-blog/topics/knowledge-flywheel/) describes, applied to test cases.
+The dataset is a living, owned asset. It starts small (one banking build seeded it with 200 real cases) and compounds as production surfaces new failures. The bigger and better-curated it grows, the stronger the system, which makes it the closest thing an agent program has to a moat. This is the same accumulate-and-measure dynamic the [Knowledge Flywheel](/working-intel/topics/knowledge-flywheel/) describes, applied to test cases.
 
 A caveat to the golden-dataset orthodoxy: you do not always need a pre-labeled set to begin. You can synthesize cases with "dueling LLMs" that role-play users, or curate anonymized production sessions into permanent test cases, then label as you go.
 
@@ -36,7 +36,7 @@ Evaluation is an architectural decision with three layers, and teams skip the th
 2. **Semantic.** Non-deterministic quality, scored by an LLM judge that grades the primary model's output for groundedness, safety, and relevance against the golden answers. Mature platforms run custom LLM judges automatically over traces.
 3. **Behavioral.** The agent's process itself: did it call the right tool, pass the right arguments, avoid loops, and answer without burning ten API calls. Teams under-invest here, and the next section explains why it carries production reliability.
 
-Behavioral evaluation has standard sub-metrics: tool correctness (did it pick the right tool, a deterministic check), argument correctness (right tool, wrong arguments is its own failure), and step efficiency. Others frame it as evaluating the trajectory rather than the final output. Testing agent pipelines at the behavioral level connects to the patterns in [Agent Design](/dev-blog/topics/agent-design/).
+Behavioral evaluation has standard sub-metrics: tool correctness (did it pick the right tool, a deterministic check), argument correctness (right tool, wrong arguments is its own failure), and step efficiency. Others frame it as evaluating the trajectory rather than the final output. Testing agent pipelines at the behavioral level connects to the patterns in [Agent Design](/working-intel/topics/agent-design/).
 
 ### Failures are behavioral, not model-based
 
@@ -63,7 +63,7 @@ At enterprise scale, agents run across multiple frameworks and clouds, so the tr
 
 ### Orchestration patterns
 
-One agent needs no orchestration. Five agents make coordination the hard problem. Three patterns recur, and related orchestration material lives in [Agent Infrastructure](/dev-blog/topics/agent-infrastructure/):
+One agent needs no orchestration. Five agents make coordination the hard problem. Three patterns recur, and related orchestration material lives in [Agent Infrastructure](/working-intel/topics/agent-infrastructure/):
 
 - **Orchestrator-worker:** a central orchestrator routes work to specialized agents and every request flows through it, which concentrates control and makes failures easy to find in one log.
 - **Choreography:** autonomous agents publish and subscribe to a message bus, running in parallel and reacting to events they care about, which cuts latency by removing the central round-trips.
@@ -80,7 +80,7 @@ Data governance is assumed. The AI-specific governance layer covers:
 - **Prompt versioning as change management.** A prompt change is a production change, not a one-word git commit. Record what failed, why the prompt changed, and what the new version corrects, so you can trace a regression to the edit that caused it.
 - **Model change management.** Provider benchmarks do not predict performance on your data, so run every candidate or upgraded model against your own dataset before trusting it. This keeps you free to switch providers and avoids betting the system on one model.
 
-The accountability side of this (who owns which agent and which failures) is the subject of [Agent Ownership and Maintenance](/dev-blog/topics/agent-ownership-and-maintenance/).
+The accountability side of this (who owns which agent and which failures) is the subject of [Agent Ownership and Maintenance](/working-intel/topics/agent-ownership-and-maintenance/).
 
 ### The production incident playbook
 
@@ -98,7 +98,7 @@ A worked example: six weeks after launch a chatbot's satisfaction scores fell. T
 
 The pillars compose into one counterintuitive ordering. In an eight-week banking-chatbot build, the team chose the model in week seven. Weeks one and two built evaluation, the next weeks built the data foundation and tracing, and only then did model choice come up, at which point it was a fast measurement against the dataset rather than a month of debate. An earlier vendor POC had spent about 85,000 dollars over six months with none of this and failed, because no one could measure why it was failing or say who owned the failure.
 
-The model question feels urgent because the model is the new and exciting part. The work that decides whether an agent survives production is the measurement and governance system around it, most of which is engineering teams already know how to do. Build that first and the model becomes a swappable, last decision. This connects to the broader [auto-improving](/dev-blog/topics/auto-improving-agents/) thesis: a metric-gated loop is only as good as the eval harness under it.
+The model question feels urgent because the model is the new and exciting part. The work that decides whether an agent survives production is the measurement and governance system around it, most of which is engineering teams already know how to do. Build that first and the model becomes a swappable, last decision. This connects to the broader [auto-improving](/working-intel/topics/auto-improving-agents/) thesis: a metric-gated loop is only as good as the eval harness under it.
 
 ## Current thinking
 
@@ -113,16 +113,16 @@ The behavioral evaluation layer is the current frontier of neglect. Deterministi
 - Behavioral evals are expensive to run against a growing dataset. Beyond running a subset in CI and the full suite on merge, what other cost-control patterns hold up at hundreds or thousands of cases?
 - Where is the line between "you don't need a golden dataset to start" (synthesize and curate as you go) and the discipline of a curated golden set? When does each approach win?
 - What does the tracking-data schema look like in practice across heterogeneous frameworks (different orchestrators, clouds) so that one eval and monitoring layer can consume it?
-- How much of this playbook can a holdout-gated [auto-improving](/dev-blog/topics/auto-improving-agents/) loop automate, and which pillars (governance, incident ownership) must stay human-owned?
+- How much of this playbook can a holdout-gated [auto-improving](/working-intel/topics/auto-improving-agents/) loop automate, and which pillars (governance, incident ownership) must stay human-owned?
 - Prompt-versioning-as-change-management is sound in principle. What does a lightweight version that teams actually follow look like, short of full enterprise change control?
 
 ## Sources
 
-- [The Production AI Playbook: Deploying Agents at Enterprise Scale](https://www.youtube.com/watch?v=ObTPqBGsEbA) — Sandipan Bhaumik, Databricks (AI Engineer), YouTube. Source for the five pillars, the three production gaps, the three evaluation layers, evaluation-as-spec and the living test set, causal tracing and online monitoring, the data foundation, orchestration patterns, AI governance, the incident playbook, and the week-seven "pick the model last" case study. Synthesized in the note [Pick the Model Last](/dev-blog/notes/pick-the-model-last/).
+- [The Production AI Playbook: Deploying Agents at Enterprise Scale](https://www.youtube.com/watch?v=ObTPqBGsEbA) — Sandipan Bhaumik, Databricks (AI Engineer), YouTube. Source for the five pillars, the three production gaps, the three evaluation layers, evaluation-as-spec and the living test set, causal tracing and online monitoring, the data foundation, orchestration patterns, AI governance, the incident playbook, and the week-seven "pick the model last" case study. Synthesized in the note [Pick the Model Last](/working-intel/notes/pick-the-model-last/).
 - [LLM Agent Evaluation](https://www.confident-ai.com/blog/llm-agent-evaluation-complete-guide) — Confident AI. Source for agent failures being behavioral rather than model-based, evaluation as the reliability determinant, tool correctness and argument correctness as distinct metrics, and trace-based failure attribution.
 - [A methodical approach to agent evaluation](https://cloud.google.com/blog/topics/developers-practitioners/a-methodical-approach-to-agent-evaluation) — Google Cloud. Source for "silent failures," trajectory versus final-output evaluation, the "you don't always need a pre-labeled golden dataset" caveat, and eval as a CI/CD quality gate with a feedback loop.
 - [Production AI Agents in 2026: Observability, Evals, and the Deployment Loop](https://dev.to/chunxiaoxx/production-ai-agents-in-2026-observability-evals-and-the-deployment-loop-4aab) — DEV Community. Source for multi-step trajectory failure categories, the shift from response logging to causal tracing, and the "observability without evals / evals without observability" framing.
 
 ## Changelog
 
-- **2026-06-21** — Topic created from the Databricks "Production AI Playbook" talk and three converging outside sources (Confident AI, Google Cloud, the 2026 deployment-loop write-up). Seeded with the three production gaps, evaluation-as-spec and the three eval layers, behavioral-failure thesis, observability and tracing, the data foundation, orchestration patterns, AI governance, the incident playbook, and "pick the model last." Feeds the note [Pick the Model Last](/dev-blog/notes/pick-the-model-last/).
+- **2026-06-21** — Topic created from the Databricks "Production AI Playbook" talk and three converging outside sources (Confident AI, Google Cloud, the 2026 deployment-loop write-up). Seeded with the three production gaps, evaluation-as-spec and the three eval layers, behavioral-failure thesis, observability and tracing, the data foundation, orchestration patterns, AI governance, the incident playbook, and "pick the model last." Feeds the note [Pick the Model Last](/working-intel/notes/pick-the-model-last/).

@@ -4,11 +4,11 @@ import starlight from '@astrojs/starlight';
 import starlightBlog from 'starlight-blog';
 
 // Deployed to GitHub Pages project site by default:
-//   https://briggsd.github.io/dev-blog/
+//   https://briggsd.github.io/working-intel/
 // Swap `site`/`base` (or drop `base`) when a custom domain is wired up.
 export default defineConfig({
 	site: 'https://briggsd.github.io',
-	base: '/dev-blog',
+	base: '/working-intel',
 	integrations: [
 		starlight({
 			title: 'Working Intelligence',
@@ -16,7 +16,7 @@ export default defineConfig({
 			description:
 				'A running synthesis of how AI is reshaping software, work, and the way products get built.',
 			social: [
-				{ icon: 'github', label: 'GitHub', href: 'https://github.com/briggsd/dev-blog' },
+				{ icon: 'github', label: 'GitHub', href: 'https://github.com/briggsd/working-intel' },
 			],
 			customCss: [
 				'@fontsource-variable/inter',
@@ -33,7 +33,7 @@ export default defineConfig({
 			},
 			plugins: [
 				starlightBlog({
-					// The "stream": dated, single-source posts at /dev-blog/notes/.
+					// The "stream": dated, single-source posts at /working-intel/notes/.
 					// Topics (the evergreen "garden") stay in the sidebar below.
 					title: 'Notes',
 					prefix: 'notes',

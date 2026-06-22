@@ -32,4 +32,4 @@ Factory shipped a near-twin of both loops in its "Signals" system, which is the 
 
 The lesson under both designs is the same, and it is not the capture. Anyone can log fixes and let an agent file tickets. The teams that pull ahead are the ones that measure whether each piece of injected knowledge earns its place and delete it the moment it stops. The bank is not the asset. The loop that keeps the bank honest is.
 
-This note feeds [Auto-Improving Agents](/dev-blog/topics/auto-improving-agents/).
+This note feeds [Auto-Improving Agents](/working-intel/topics/auto-improving-agents/).

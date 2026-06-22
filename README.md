@@ -31,7 +31,7 @@ automatically.
 | Command           | Action                                       |
 | :---------------- | :------------------------------------------- |
 | `npm install`     | Install dependencies                         |
-| `npm run dev`     | Local dev server at `localhost:4321/dev-blog`|
+| `npm run dev`     | Local dev server at `localhost:4321/working-intel`|
 | `npm run build`   | Build production site to `./dist/`           |
 | `npm run preview` | Preview the production build locally         |
 
@@ -40,7 +40,7 @@ automatically.
 Pushes to `main` build and deploy to GitHub Pages via
 `.github/workflows/deploy.yml`. Enable it under **Settings → Pages → Build and
 deployment → Source: GitHub Actions**. The site serves from
-`https://briggsd.github.io/dev-blog/`.
+`https://briggsd.github.io/working-intel/`.
 
 To use a custom domain, set it in the Pages settings and update `site` / `base`
 in `astro.config.mjs`.

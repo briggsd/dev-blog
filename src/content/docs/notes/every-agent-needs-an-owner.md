@@ -38,7 +38,7 @@ Strip the vocabulary and the four camps say one thing: every agent that does rea
 
 The disagreement is about weight. Nate's owner card lives in a Slack channel and costs nothing to start. Microsoft's control plane assumes Entra identities, a central registry, and policy enforcement across platforms. Both are right for different sizes. A handful of personal agents needs the card. A hundred thousand of them needs the control plane. The mistake is matching the wrong weight to your scale: bureaucracy over three agents, or a Slack channel over fifty thousand.
 
-The throughline is that ownership has to arrive with the agent, not after the incident. I keep the running version of this argument in the evergreen [Agent Ownership and Maintenance](/dev-blog/topics/agent-ownership-and-maintenance/) topic.
+The throughline is that ownership has to arrive with the agent, not after the incident. I keep the running version of this argument in the evergreen [Agent Ownership and Maintenance](/working-intel/topics/agent-ownership-and-maintenance/) topic.
 
 ## Sources
 
