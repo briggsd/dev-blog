@@ -1,0 +1,33 @@
+---
+// Homepage "execution log" — the latest notes as a vertical timeline,
+// auto-generated from the notes collection. Newest first.
+import { getCollection } from 'astro:content';
+
+const base = import.meta.env.BASE_URL; // e.g. "/dev-blog/"
+const LIMIT = 6;
+const notes = (await getCollection('docs', (e) => e.id.startsWith('notes/')))
+	.sort((a, b) => (b.data.date?.getTime?.() ?? 0) - (a.data.date?.getTime?.() ?? 0))
+	.slice(0, LIMIT);
+const stamp = (d?: Date) => (d ? d.toISOString().slice(0, 10) : '');
+---
+
+<div class="wi-log">
+	{
+		notes.map((n, i) => (
+			<article class="wi-log__entry">
+				<span class={`wi-log__node${i === 0 ? ' is-latest' : ''}`} aria-hidden="true" />
+				<a class="wi-log__link" href={`${base}${n.id}/`}>
+					<time class="wi-log__time" datetime={stamp(n.data.date)}>
+						[{stamp(n.data.date)}]
+					</time>
+					<h3 class="wi-log__title">{n.data.title}</h3>
+					{n.data.excerpt && <p class="wi-log__excerpt">{n.data.excerpt}</p>}
+				</a>
+			</article>
+		))
+	}
+</div>
+
+<p class="wi-log__more">
+	<a href={`${base}notes/`}>&rsaquo; view_all_notes</a>
+</p>

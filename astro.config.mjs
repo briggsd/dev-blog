@@ -18,8 +18,16 @@ export default defineConfig({
 			social: [
 				{ icon: 'github', label: 'GitHub', href: 'https://github.com/briggsd/dev-blog' },
 			],
-			customCss: ['@fontsource-variable/inter', './src/styles/theme.css'],
+			customCss: [
+				'@fontsource-variable/inter',
+				'@fontsource-variable/jetbrains-mono',
+				'./src/styles/theme.css',
+			],
 			lastUpdated: true,
+			// Dark-only terminal theme: drop the light/dark toggle.
+			components: {
+				ThemeSelect: './src/components/ThemeSelect.astro',
+			},
 			plugins: [
 				starlightBlog({
 					// The "stream": dated, single-source posts at /dev-blog/notes/.

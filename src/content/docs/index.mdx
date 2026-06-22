@@ -2,40 +2,46 @@
 title: Working Intelligence
 description: A running synthesis of how AI is reshaping software, work, and the way products get built.
 template: splash
-hero:
-  tagline: Field notes on agentic engineering, AI labor markets, and how software actually gets built now — written to be read, not just filed away.
-  actions:
-    - text: Browse topics
-      link: /dev-blog/topics/ai-labor-market-2026/
-      icon: right-arrow
-    - text: Latest notes
-      link: /dev-blog/notes/
-      icon: open-book
-      variant: secondary
-    - text: View on GitHub
-      link: https://github.com/briggsd/dev-blog
-      icon: external
-      variant: minimal
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import TopicGrid from '../../components/TopicGrid.astro';
+import NoteLog from '../../components/NoteLog.astro';
 
-## What this is
+<div class="wi-hero">
+	<div class="wi-hero__bar">
+		<span class="wi-hero__dot wi-hero__dot--r"></span>
+		<span class="wi-hero__dot wi-hero__dot--y"></span>
+		<span class="wi-hero__dot wi-hero__dot--g"></span>
+		<span class="wi-hero__file">system_init.sh</span>
+	</div>
+	<div class="wi-hero__body">
+		<h1 class="wi-hero__title">
+			<span class="wi-hero__prompt">&gt;</span> initialize_workspace
+			<span class="wi-hero__cursor" aria-hidden="true"></span>
+		</h1>
+		<p class="wi-hero__tagline">
+			Field notes on agentic engineering, AI labor markets, and how software actually gets
+			built now. Written to be read, not just filed away.
+		</p>
+		<p class="wi-hero__legend">
+			<strong>Notes</strong> are the stream, dated and one per source.
+			<strong>Topics</strong> are the garden, evergreen pages that keep evolving as notes feed them.
+		</p>
+	</div>
+</div>
 
-Two kinds of writing on the shifts happening in AI and software. **Notes** are the
-stream: dated posts, one per source, capturing what something said and why it
-matters. **Topics** are the garden: evergreen pages that keep evolving as new
-notes add to them. Notes feed topics; topics outlast any single note.
+<section class="wi-section">
+	<div class="wi-section__head">
+		<h2>Available_Modules</h2>
+		<span class="wi-section__rule"></span>
+	</div>
+	<TopicGrid />
+</section>
 
-<CardGrid>
-	<Card title="AI Labor Market 2026" icon="seti:notebook">
-		The Red Queen goes industry-wide: selection pressure on AI fluency, the
-		junior-pipeline collapse, and compensation polarization.
-
-		[Read the topic →](/dev-blog/topics/ai-labor-market-2026/)
-	</Card>
-	<Card title="More topics incoming" icon="add-document">
-		Agent design, the knowledge flywheel, product thinking in the AI era, and
-		more — migrating in from years of captured research.
-	</Card>
-</CardGrid>
+<section class="wi-section">
+	<div class="wi-section__head">
+		<h2>Execution_Log</h2>
+		<span class="wi-section__rule"></span>
+	</div>
+	<NoteLog />
+</section>
