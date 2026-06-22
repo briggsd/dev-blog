@@ -1,0 +1,176 @@
+---
+title: Build a CI-Native Review Factory
+date: 2026-06-21
+excerpt: "A working prototype that reviews every PR with LLM agents, built on one rule: deterministic code owns the boring safety-critical parts, agents own judgment. How risk tiering drives the whole pipeline, how specialists fan out and a coordinator fuses, and why the model never decides which model runs."
+tags: [build, code-review, agents, ci, orchestration]
+---
+
+import Mermaid from '../../../components/Mermaid.astro';
+
+**Applies:** [Agent Infrastructure](/working-intel/topics/agent-infrastructure/) (the CI-native review factory), [Agent Design](/working-intel/topics/agent-design/) (specialist reviewers that specialize, scope, and fuse), and [Extensibility](/working-intel/topics/extensibility/) (open to extension, closed to modification). The infrastructure topic points at Cloudflare's review factory as the public example. This is a first-party one.
+
+*Grounded in a working prototype (`@briggsd/code-reviewer`, a CI-native runner for GitHub, GitLab, and Bitbucket). Code is real and current; some excerpts are condensed for the page.*
+
+## The one rule
+
+A review runner has two kinds of work, and they want opposite things. Fetching diffs, filtering noise, scoring risk, enforcing timeouts, publishing comments, setting the CI status: that work has to be reliable, cheap, and the same every time. Judging whether a change is safe: that work needs a model. The whole design follows from keeping them apart.
+
+> Deterministic code owns the boring, safety-critical parts. LLM agents handle the judgment: specialist reviewers fan out by risk and domain, a coordinator fuses their findings. The CI status is the merge gate; comments are just the human-facing UX.
+
+<Mermaid
+	title="Two layers: code orchestrates, the model judges"
+	chart={`
+flowchart TD
+    CI["CI trigger · PR / MR"] --> ADP
+    subgraph SHELL["deterministic shell · code owns this"]
+        ADP["VCS adapter<br/>diff · metadata · prior state"] --> FILT["diff filter<br/>drop lockfiles · generated · vendored"]
+        FILT --> RISK["risk classifier<br/>trivial · lite · full"]
+        RISK --> CTX["context builder<br/>shared patches + metadata"]
+    end
+    CTX --> COORD
+    subgraph AGENTS["agent layer · model owns judgment"]
+        COORD["coordinator"] --> R1["code_quality"]
+        COORD --> R2["security"]
+        COORD --> R3["documentation"]
+        COORD --> R4["performance"]
+        COORD --> R5["release · compliance ·<br/>comprehension (opt-in)"]
+        R1 --> FUSE["coordinator fuses<br/>dedupe · verify · decide"]
+        R2 --> FUSE
+        R3 --> FUSE
+        R4 --> FUSE
+        R5 --> FUSE
+    end
+    FUSE --> GND["evidence grounding<br/>demote unfound quotes"]
+    GND --> PUB["publish summary + inline"]
+    GND --> GATE{"CI gate · status is the merge gate"}
+`}
+/>
+
+## Risk tiering is the deterministic spine
+
+Everything downstream keys off one decision: how risky is this change? That decision is plain code, no model involved. It reads the diff and returns a tier.
+
+```ts
+// src/runner/risk-classifier.ts  (condensed)
+export function classifyRisk(input: RiskClassificationInput): RiskAssessment {
+  const sensitivePaths = input.diff.files
+    .map((f) => f.path)
+    .filter((p) => matchesAnyGlob(p, input.config.sensitivePaths));
+  const reviewedFileCount = input.diff.files.length;
+  const totalChangedLines = input.diff.totalAdditions + input.diff.totalDeletions;
+
+  if (sensitivePaths.length > 0) return assess("full", "sensitive_paths");
+  if (reviewedFileCount > 50 || totalChangedLines > 500) return assess("full", "large_change");
+  if (reviewedFileCount <= 5 && totalChangedLines <= 25) return assess("trivial", "small_change");
+  return assess("lite", "default_lite");
+}
+```
+
+Touch an auth file or a migration and you get a full review regardless of size. That bypass is the point: the cheap path never applies to the changes that can hurt you.
+
+The tier name then maps to behavior through a single declarative table. Reviewer selection, timeout scaling, tool policy, and the coordinator short-circuit all read from this one place instead of re-checking the tier themselves.
+
+```ts
+// src/runner/tier-profile.ts — the single source of truth
+const TIER_PROFILES = Object.freeze({
+  trivial: Object.freeze({
+    reviewerRoleCap: ["code_quality"],          // only the fast role runs
+    shortCircuitCoordinatorOnZeroFindings: true, // skip the coordinator if nothing's found
+    timeoutScale: 0.25,
+    denyContextTools: true,                      // no repo crawling on tiny diffs
+    patchBudgetBytes: 64_000,
+  }),
+  lite: Object.freeze({
+    reviewerRoleCap: "all_enabled",
+    shortCircuitCoordinatorOnZeroFindings: true,
+    timeoutScale: 0.5,
+    denyContextTools: true,
+    patchBudgetBytes: 512_000,
+  }),
+  full: Object.freeze({
+    reviewerRoleCap: "all_enabled",
+    shortCircuitCoordinatorOnZeroFindings: false, // a full review always synthesizes
+    timeoutScale: 1,
+    denyContextTools: false,                      // read tools allowed for deep review
+    patchBudgetBytes: 4_000_000,
+  }),
+});
+```
+
+One table, and the cost profile of the entire run falls out of it: how many agents, how long they get, how much context they see, whether they can touch the repo. Change the economics of the system by editing data, not control flow.
+
+## The agent layer: fan out, then fuse
+
+Once the shell has picked a tier and built shared context, the selected specialist reviewers run concurrently. Each one is scoped to a single role (code quality, security, documentation, and performance, with release, compliance, and a comprehension gate as further roles), gets the same shared context by reference, and returns structured findings. Which roles run is itself tier-gated: a trivial diff gets only code quality, a full review gets the lot.
+
+```ts
+// src/runtime/pi-agent-runtime.ts — specialists run in parallel  (condensed)
+const reviewerSettled = await Promise.allSettled(
+  input.selectedReviewers.map(async (reviewer) => {
+    const result = await this.runReviewer(reviewer);
+    return { reviewer, result };
+  }),
+);
+```
+
+`allSettled`, not `all`: one reviewer timing out or erroring must not sink the others. Failures get classified and the coordinator is told what did not run, rather than the whole review crashing.
+
+Then the coordinator fuses: dedupe across reviewers, verify the high-severity claims, and reduce everything to one decision and one CI status. Except when it does not have to.
+
+<Mermaid
+	title="Fan-out, fuse, and the short-circuit that skips the expensive step"
+	chart={`
+sequenceDiagram
+    participant S as shell
+    participant C as coordinator
+    participant R as reviewers
+    S->>S: classifyRisk() → tier
+    S->>C: dispatch selected roles (timeout × scale)
+    C->>R: run code_quality, security, ... (allSettled)
+    R-->>C: findings[]
+    alt trivial/lite tier · all succeeded · zero findings
+        C-->>S: deterministic "approved" (skip synthesis)
+    else has findings or full tier
+        C->>C: fuse · dedupe · verify high-severity
+        C-->>S: one decision + CI status
+    end
+`}
+/>
+
+The short-circuit is where determinism buys back money. If every reviewer succeeded and found nothing, on a low-risk tier there is nothing to synthesize, so the coordinator call is skipped entirely and a known-good summary is returned.
+
+```ts
+// src/runtime/pi-agent-runtime.ts — skip the coordinator when there's nothing to fuse
+if (
+  input.shortCircuitOnZeroFindings === true &&
+  reviewerFailures.length === 0 &&
+  reviewerResults.every((result) => result.findings.length === 0)
+) {
+  const summary = summarizeReview(input.context, []); // deterministic "approved"
+  return { summary, reviewerResults, coordinatorShortCircuited: true };
+}
+```
+
+Most PRs in a healthy repo are clean and small. The short-circuit means the common case never pays for the most expensive model call in the pipeline.
+
+## Why the split is the whole point
+
+Put the determinism around the model, not inside it. The model is good at judgment and bad at being a reliable system: it will not consistently fetch the right diff, respect a timeout, or fail closed. So the code does those things, and the contract handed to the agent is narrow: here is the scoped context, return findings in this shape. Three properties fall out of that boundary:
+
+- **The model never decides which model runs.** Tier selection and roster are deterministic, so cost is bounded before a single token is spent.
+- **Failures degrade, they don't crash.** A reviewer that dies is a missing input the coordinator notes, not a broken review. When synthesis itself fails, a deterministic fallback summary still ships.
+- **The gate is code.** The CI status comes from the decision plus a `failOn` policy. Comments are the human UX on top; the merge gate underneath is not at the mercy of prose.
+
+## Open to extension, never fork the core
+
+The factory is also a worked example of [open to extension, closed to modification](/working-intel/topics/extensibility/), which is what lets it install once across many repos. Adopting repos never fork it; they configure per-repo through a small `.ai-review.json`. The parts that vary are registered units, not edits to the core:
+
+- **Reviewers** are factory-owned `defineReviewer(...)` definitions. Adding the performance role was a new unit, not a new branch in the runner.
+- **Version control** is an adapter contract. GitHub, GitLab, and Bitbucket are implementations behind one interface; a fourth host is a new adapter, not a rewrite.
+- **Runtimes and providers** are registered and swappable, with a failback chain when a provider degrades.
+
+The seam sits on the axis of variation (which hosts, which reviewers, which models) and the core stays flat. It is the same discipline that keeps the `TIER_PROFILES` table declarative: change behavior by adding data and units, not `if` branches. That flatness is also what keeps the system legible to the agents running inside it.
+
+## Where it is, honestly
+
+This is a working prototype, not a finished product. It runs real reviews today across GitHub, GitLab, and Bitbucket, with risk tiering, evidence grounding (covered in a follow-up build), incremental re-review, and JSONL traces plus non-blocking telemetry. The rough edges are known: per-role model routing is not yet adopter-configurable, GitLab inline comments lag GitHub, and the self-evaluation harness exists but has no public feedback loop yet. The architecture, though, is the durable part: a deterministic shell with a narrow contract to the agents has held up as every other piece churned.

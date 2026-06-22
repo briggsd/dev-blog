@@ -156,51 +156,9 @@ This is a single-practitioner thesis in a promotional context, so treat it as pl
 
 ### Extensibility as a survival property
 
-This is the design-principle layer beneath both harness sovereignty (you can only specialize a harness you can extend) and agents-as-profiles (a profile is only cheap to add if the substrate is open and closed). It applies to two arenas, not one.
+Open to extension, closed to modification is the design-principle floor under harness sovereignty (you can only specialize a harness you can extend), agents-as-profiles (the second agent is a bundle, not a platform, only because the substrate is extensible), and the Toolshed pattern (the same instinct at the tool layer). Those three depend on it, not the other way around.
 
-The thesis: open to extension, closed to modification. The justification is the rate of change. Models, prompts, tools, and techniques churn at high speed, so the only software that survives is software you adapt by adding, never by rewriting the core. The failure mode is concrete: brittle, vibe-coded software with cascading if-statements will make your agents slow and error-prone next year, because you will have to teach them to navigate all that accumulated logic on every run. Add, don't modify. Pluggability, composability, and swappability across tools, prompts, agents, system prompts, and models (change-on-the-fly) are the keys.
-
-The principle splits across two arenas:
-
-- **Engineering work.** Your agent harness is the prime example: swappable and dynamic, with change-on-the-fly tools, prompts, agents, system prompts, and models.
-- **Product work.** Production software (agentic or traditional) that must adapt as the environment shifts. The same open-closed discipline applies to the thing you ship, not just the thing you build with. The payoff is symmetric: a product built open-closed lets its own agents add capability without a rewrite, exactly as an extensible harness does for yours.
-
-The Pi harness is a worked reference implementation of an agent harness built open and closed, and the mechanics map cleanly onto the principle:
-
-| Open/closed mechanic | How Pi does it | What it buys |
-|---|---|---|
-| **Minimal core, layered extensions** | Extensions are TypeScript modules auto-discovered from `~/.pi/agent/extensions/` (global) or `.pi/extensions/` (project-local) — you never edit Pi's source | The core stays *closed*; behavior is *added* in your own files |
-| **Lifecycle event hooks** | Subscribe to `session_start`, `tool_call` (can block/mutate args), `context` (prune/rewrite messages), `before_provider_request` (rewrite the payload), `tool_result`, `before_agent_start` (inject context / modify system prompt) | Intercept and reshape behavior *without* forking the loop |
-| **Register, don't patch** | `registerTool` / `registerCommand` / `registerShortcut` / `registerFlag` / `registerProvider` / `registerMessageRenderer` | New capability is additive surface, not a core change |
-| **Composable, shareable units** | Skills, prompts, themes, extensions, and providers bundle into *pi packages* shipped via npm or git (`pi install npm:… / git:…`) | Customization pulled from any location — the composability the sovereignty argument calls for |
-| **Swappable on the fly** | Hot-reload (`/reload`), dynamic tool registration mid-session, runtime model/provider routing, async factory that discovers models at startup | "Change-on-the-fly" is literal, not aspirational |
-
-Every customization is something you add alongside the core, gated through an event or a registration API, never a modification of Pi itself. That is the open-closed principle expressed as a runtime, and it is why the sovereignty argument lands on Pi specifically: you can specialize the experience indefinitely because the extension surface is the product.
-
-This is not a new idea. It is a well-named one. The practitioner thesis re-discovers decades of plugin-architecture principle, and naming the prior art upgrades it from plausible to verified:
-
-- **Microkernel and plugin architecture** (POSA, Mark Richards): a minimal, stable core that defines extension points, the contracts that plugins implement. This is the architectural home of the whole concept.
-- **Open/Closed Principle** (Meyer 1988, Martin's polymorphic reframe): the slogan verbatim, depend on a stable abstraction and vary behavior behind it.
-- **Information hiding and design for change** (Parnas 1972) and **encapsulate what varies** (GoF): the reason and the location. Put the seam on the axis you expect to change, hide it behind a stable interface. The seam goes where variation lives, not everywhere.
-- **Mechanism, not policy** (Unix and X tradition): the core supplies mechanism (event bus, registry, contract), extensions supply policy (what to do). Keeping policy out of the core keeps the core small.
-- **Declarative versus programmatic contribution** (VS Code Contribution Points declared in the manifest versus runtime registration): Pi offers both, a package manifest key (declarative, discoverable, lazy) and `pi.registerTool()` at load (programmatic, dynamic).
-
-A web UI over a harness faces the identical problem: how to define extension points before you know the extensions. The same shape recurs one layer up and operationalizes the principle into rules worth lifting out:
-
-- **Split the extension responsibilities by layer.** Agent capabilities (tools, commands, skills) get extended in the agent and flow through to the UI for free, so the UI must never hardcode a fixed tool set. The UI only adds a seam for the half the agent cannot do: presentation. Compose two extension systems, don't duplicate one.
-- **Thin core, registered capabilities.** The core owns transport, session lifecycle, an event bus, and registries. Everything visible (tool-card renderers, panels, themes) is a registered unit with an in-tree default set.
-- **A seam needs a graceful default.** A renderer registry returns a no-op fallback for unknown tools so the core event loop never crashes when no fallback was registered. An extension point that can crash the core on the unknown case is not finished.
-- **The contract is the stable promise.** A future seam will let renderers be discovered without editing the core, but the contract will not change, so renderers written now keep working. Forward-compatibility is the open-closed guarantee made explicit, the Stable Dependencies Principle: the thing plugins depend on must be the most stable thing in the system.
-
-The seam-decision heuristic answers "which extension points, and when?":
-
-1. **Put the seam on the axis of variation, not everywhere** (Parnas, GoF). Find the one thing that actually varies first. Unnamed future variation gets no seam.
-2. **Ship the contract before the discovery machinery** (build seams, not bureaucracy, and YAGNI). Build and freeze the high-value contract now, defer the manifest, install, and discovery machinery until a real third-party consumer exists, but shape the contract so that machinery is an addition, not a rewrite.
-3. **Every seam needs a graceful default.** Degrade, don't fail, on the unknown case.
-4. **Bound the blast radius of an extension.** Use the smallest surface that does the job and route unmet data needs to the layer that owns them, the open-closed analogue of the isolation principle elsewhere in this topic.
-5. **Prefer add-only registration over conditional core logic.** The anti-pattern is the cascading `if (toolName === …)` in the core. Each new case as a registered unit keeps the core's branching flat, which is also what keeps agents able to navigate the code.
-
-Open-closed is what makes agents-as-profiles economically real (the second agent is a bundle, not a platform, only because the substrate is extensible) and what harness sovereignty depends on (ownership without extensibility just relocates the brittleness). It is the design-principle floor under both. The Toolshed pattern is the same instinct at the tool layer, profiles are it at the configuration layer, and this concept names the underlying principle.
+This principle now has its own page. See **[Extensibility](/working-intel/topics/extensibility/)** for the plugin-architecture lineage it descends from (microkernel, open/closed, information hiding, mechanism-not-policy), Pi as a worked open/closed reference, and a seam-decision heuristic for where to put the extension points.
 
 ### Peer-to-peer (flat) agent communication
 
@@ -238,7 +196,7 @@ This topic exists because two independent production systems (Shopify River and 
 - **Orchestration is a script, not a framework.** Blueprints (deterministic plus agentic nodes) are Anthropic's own composable-patterns guidance. A bash wrapper around Claude Code is the minimum viable blueprint. Don't buy LangGraph first.
 - **Tools should compound, not silo.** Even at 5 to 20 tools (against Stripe's 500), a shared MCP config across the team is the right default. Tool investment amortizes across every agent on the team.
 - **Session durability is the one thing you cannot retrofit.** For a first team build, the PR itself carries session identity (comments, commits, the CLAUDE.md used), which is enough until you run long-lived multi-day agents. At that point the Postgres-session pattern earns its cost.
-- **Extensibility is a survival property, not a feature.** Build the harness (and the product) open to extension, closed to modification. Add behavior in layered units, never by editing the core. Pi is the worked example: every customization is an extension, a registered tool or command, or a package, gated through an event or registration API. This is the floor under both agents-as-profiles and own-don't-rent. Ownership without extensibility just relocates the brittleness.
+- **Extensibility is a survival property, not a feature.** Build the harness (and the product) open to extension, closed to modification: add behavior in layered units, never by editing the core. This is the floor under both agents-as-profiles and own-don't-rent, and ownership without extensibility just relocates the brittleness. See [Extensibility](/working-intel/topics/extensibility/) for the worked reference and the seam-decision rules.
 - **Orchestration is a spectrum, not a default.** Top-down patterns (blueprints, brokers) buy reliability through structure. Flat peer-to-peer comms buys information fidelity and context specialization through flatness, at the cost of loop risk and a fuzzy scaling ceiling. The peer-to-peer pattern is still single-practitioner, not production-validated: promising for builder-plus-validator cross-checking and PII-safe cross-device hand-offs, but unproven at fleet scale. Pick the axis (determinism versus flatness) the problem actually needs.
 - **Review factories are the practical first production harness.** Cloudflare's AI review system shows the team-scale version of these principles in a narrow workflow: plugin-configured CI entrypoint, server-first programmable harness, risk-tiered specialist agents, shared context files, JSONL traces, runtime model routing, and non-blocking telemetry. To build a local version, start thinner (coordinator plus code quality plus security plus docs) but keep the same infrastructure shape.
 
@@ -258,6 +216,10 @@ The right team analogy is not "build Aquifer." It is "build the things that help
 - Paired-extension packaging: if a harness extension ships a paired web renderer, how does the renderer travel with the installed package and reach the UI's registry?
 - For the product-work arena of extensibility (not the harness): does shipped agentic software whose own agents author the extensions follow the same seam-decision heuristic, or does agent-as-author change the seam design (seams optimized for an LLM to discover and use, not a human developer)?
 
+## Applied in
+
+- [Build a CI-Native Review Factory](/working-intel/build/ci-native-review-factory/) — a first-party version of the CI-native review factory: deterministic shell (diff fetch, risk tiering, the CI gate) around an agent layer that fans out specialist reviewers and fuses them, with a single declarative tier table driving cost.
+
 ## Sources
 
 - [Under the River](https://shopify.engineering/under-the-river) — Shopify Engineering. Source for the session/harness/sandbox decomposition, session cells (cattle-not-pets), agents-as-profiles, the three session modes, and multiplayer-by-construction with the public corpus as compounding asset.
@@ -275,6 +237,8 @@ The right team analogy is not "build Aquifer." It is "build the things that help
 
 ## Changelog
 
+- **2026-06-21** — Promoted the "Extensibility as a survival property" section into its own [Extensibility](/working-intel/topics/extensibility/) topic; slimmed the section here to a pointer.
+- **2026-06-21** — Added an "Applied in" link to the CI-native review factory build log.
 - **2026-06-21** — Migrated to the public site; sanitized and run through the publish pipeline.
 - **2026-06-09** — Added the CI-native review factory (Cloudflare pattern).
 - **2026-06-08** — Added harness sovereignty, extensibility as a survival property, and peer-to-peer agent communication.

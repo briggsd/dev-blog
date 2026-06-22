@@ -339,6 +339,10 @@ These work as a finding pattern, not just an automation pattern. Even before you
 - What does "Agent Tennis" detection look like in practice?
 - Has anyone other than the originating team replicated the model-empathy finding (better same-family meta/task pairings), or is it still a single observation?
 
+## Applied in
+
+- [Build a CI-Native Review Factory](/working-intel/build/ci-native-review-factory/) — specialist reviewers that specialize, scope, and fuse, in production: each agent is scoped to one role and shared context, runs concurrently with the others, and a coordinator deduplicates and fuses their findings into one decision.
+
 ## Sources
 
 - [Anthropic, OpenAI, and Microsoft Just Agreed on One File Format. It Changes Everything.](https://www.youtube.com/watch?v=0cVuMHaYEHE) — Nate B. Jones, YouTube. Source for agent-first design principles, the no-recovery-loop problem, and contract-style interfaces.
@@ -361,6 +365,7 @@ These work as a finding pattern, not just an automation pattern. Even before you
 
 ## Changelog
 
+- **2026-06-21** — Added an "Applied in" link to the CI-native review factory build log.
 - **2026-06-21** — Migrated to the public site; sanitized and run through the publish pipeline.
 - **2026-06-11** — Added memory as a harness component (storage / injection / recall).
 - **2026-06-09** — Added production review agents (specialize, scope, fuse).
