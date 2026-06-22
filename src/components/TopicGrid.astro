@@ -3,7 +3,7 @@
 // never goes stale. Newest-updated topics first.
 import { getCollection } from 'astro:content';
 
-const base = import.meta.env.BASE_URL; // e.g. "/dev-blog/"
+const base = import.meta.env.BASE_URL.replace(/\/$/, ''); // "/dev-blog", no trailing slash
 const topics = (await getCollection('docs', (e) => e.id.startsWith('topics/'))).sort(
 	(a, b) => (b.data.lastUpdated?.getTime?.() ?? 0) - (a.data.lastUpdated?.getTime?.() ?? 0)
 );
@@ -13,7 +13,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
 <div class="wi-grid">
 	{
 		topics.map((t, i) => (
-			<a class="wi-card" href={`${base}${t.id}/`}>
+			<a class="wi-card" href={`${base}/${t.id}/`}>
 				<span class="wi-card__corner" aria-hidden="true">&rsaquo;</span>
 				<span class="wi-card__id">sys.topic.{pad(i + 1)}</span>
 				<h3 class="wi-card__title">{t.data.title}</h3>
