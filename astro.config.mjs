@@ -24,9 +24,12 @@ export default defineConfig({
 				'./src/styles/theme.css',
 			],
 			lastUpdated: true,
-			// Dark-only terminal theme: drop the light/dark toggle.
+			// Terminal theme overrides:
+			//  - ThemeSelect: empty (dark-only, no toggle).
+			//  - Header: adds a persistent top nav (topics/notes/github) on every page.
 			components: {
 				ThemeSelect: './src/components/ThemeSelect.astro',
+				Header: './src/components/Header.astro',
 			},
 			plugins: [
 				starlightBlog({
@@ -34,7 +37,9 @@ export default defineConfig({
 					// Topics (the evergreen "garden") stay in the sidebar below.
 					title: 'Notes',
 					prefix: 'notes',
-					navigation: 'header-end',
+					// We render our own header nav (see src/components/Header.astro),
+					// so the plugin should not inject its own link or override components.
+					navigation: 'none',
 					authors: {
 						wi: { name: 'Working Intelligence' },
 					},

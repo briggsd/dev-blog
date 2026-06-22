@@ -86,6 +86,38 @@ starlight-toc h2,
 	font-family: var(--wi-mono);
 }
 
+/* Persistent top nav in the header (topics / notes / github). */
+.wi-topnav {
+	display: flex;
+	align-items: center;
+	gap: 1.15rem;
+	font-family: var(--wi-mono);
+	font-size: 0.82rem;
+	letter-spacing: 0.02em;
+	white-space: nowrap;
+}
+.wi-topnav__link {
+	color: var(--sl-color-gray-3);
+	text-decoration: none;
+	transition: color 0.15s ease;
+}
+.wi-topnav__link:hover {
+	color: var(--sl-color-accent);
+}
+.wi-topnav__link.is-active {
+	color: var(--sl-color-accent);
+}
+.wi-topnav__link--ext:hover {
+	color: var(--sl-color-white);
+}
+/* On narrow viewports the header is a tight single row; hide the inline nav
+   there (mobile cross-section nav via the menu is a follow-up). */
+@media (max-width: 50rem) {
+	.wi-topnav {
+		display: none;
+	}
+}
+
 /* Metadata: last-updated, breadcrumbs, footer. */
 .meta,
 .meta time,
@@ -229,6 +261,16 @@ footer .meta,
 /* Section headers: amber mono kicker + rule. */
 .wi-section {
 	margin: 3.25rem 0;
+}
+.wi-section--first {
+	margin-top: 0.5rem;
+}
+.wi-lede {
+	margin: -0.75rem 0 1.75rem;
+	color: var(--sl-color-gray-3);
+	font-size: 0.95rem;
+	line-height: 1.65;
+	max-width: 62ch;
 }
 .wi-section__head {
 	display: flex;
