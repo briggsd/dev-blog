@@ -1,7 +1,7 @@
 ---
 title: Agent Design
 description: Principles and patterns for building AI agent systems that produce reliable, predictable outcomes across harnesses, task suitability, autonomy, error recovery, multi-agent workflows, and the analytics that steer them.
-lastUpdated: 2026-06-21
+lastUpdated: 2026-06-22
 ---
 
 This collects principles and patterns for designing AI agents and agent pipelines that produce reliable, predictable outcomes. It covers how agents invoke tools and skills, how to handle failures, how to calibrate autonomy, how to test, and how to coordinate multiple agents. The design layer sits on top of a production-platform layer (session durability, execution isolation, orchestration substrate, shared tools) that has its own concerns; this page stays with design.
@@ -46,6 +46,8 @@ Memory and state is one of the harness components above, and like the others it 
 The design move is best-of-breed assembly: score the three jobs on their own, patch the weakest with one targeted add-on, and prefer owning the seams (legibility, portability across harnesses) over adopting a monolith. A multi-tier short-circuit, checking the cheap injected snapshot first and falling through to deep search only if needed, is the standard token-cost optimization.
 
 The underlying patterns here are established practice: hybrid BM25 plus vector plus reciprocal rank fusion plus cross-encoder rerank; MemGPT and Letta tiered memory ([arXiv:2310.08560](https://arxiv.org/abs/2310.08560)); cited RAG with abstention. One caveat: cited RAG is not the same as faithful RAG. Up to 57% of citations can be post-rationalized ([arXiv:2412.18004](https://arxiv.org/abs/2412.18004)), so the "tells you exactly where it came from" property needs faithfulness checks, not just citations.
+
+Storage, injection, and recall all answer *what* the agent knows. A fourth axis answers *why* it decided: the reasoning trace. Most memory keeps the retrieved facts and drops the reasoning behind a decision, but the record of which tools were called, which policies applied, and which alternatives were weighed is what makes an agent auditable and able to learn from precedent instead of re-deriving the same call. Knowledge-graph memory is the natural home for this tier, since the traversal path that produced an answer is itself the explanation; the graph-versus-vector question resolves to hybrid (vector to find the entry point, a graph to traverse from it) rather than either alone, and a graph earns its place when the retriever cannot follow a relationship chain. The research direction adds a temporal dimension: a memory that never invalidates a stale fact hands the agent a contradiction, so decision traces want validity intervals, not just content. Treat graph memory as the targeted add-on for multi-hop relational reasoning and decision-trace recall, not a default, and read the vendor benchmarks (Neo4j, Zep) as motivated. See the note [The Reasoning Trace Is the Memory You Throw Away](/working-intel/notes/reasoning-trace-memory/).
 
 ### Four species of agent systems
 
@@ -346,6 +348,7 @@ These work as a finding pattern, not just an automation pattern. Even before you
 ## Sources
 
 - [Anthropic, OpenAI, and Microsoft Just Agreed on One File Format. It Changes Everything.](https://www.youtube.com/watch?v=0cVuMHaYEHE) — Nate B. Jones, YouTube. Source for agent-first design principles, the no-recovery-loop problem, and contract-style interfaces.
+- [Connecting the Dots with Context Graphs](https://www.youtube.com/watch?v=eW_vxrjvERk) — Stephen Chin, Neo4j (AI Engineer), YouTube. Source for the reasoning-trace / provenance memory tier and graph-structured agent memory. Synthesized in the note [The Reasoning Trace Is the Memory You Throw Away](/working-intel/notes/reasoning-trace-memory/).
 - Agent Error Recovery Patterns — auto-researched from multiple web sources (no single canonical URL). Source for tiered retry, circuit breakers, failure classification, checkpointing, and graceful degradation.
 - Testing AI Agent Pipelines — auto-researched from multiple web sources (no single canonical URL). Source for the three-layer testing architecture, the non-determinism problem, and the component-versus-E2E tradeoff.
 - Levels of AI Agent Autonomy — auto-researched from multiple web sources (no single canonical URL). Source for the five-level autonomy framework, the ask-versus-act heuristic, and trust-calibration data.
@@ -365,6 +368,7 @@ These work as a finding pattern, not just an automation pattern. Even before you
 
 ## Changelog
 
+- **2026-06-22** — Added the provenance / reasoning-trace memory tier (graph memory) to the memory section, from the Context Graphs note.
 - **2026-06-21** — Added an "Applied in" link to the CI-native review factory build log.
 - **2026-06-21** — Migrated to the public site; sanitized and run through the publish pipeline.
 - **2026-06-11** — Added memory as a harness component (storage / injection / recall).
