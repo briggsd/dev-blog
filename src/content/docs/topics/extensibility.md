@@ -14,6 +14,30 @@ The thesis comes from IndyDevDan's "5 Pillars" talk, where he names extensible s
 
 The failure mode is concrete and specifically bad for agents. Software that "operates in a very specific line of cascading if statements" becomes the thing your own agents have to navigate on every run, so "next year is going to be really really hard for you because your agents will be really slow, they'll be making a lot of mistakes, and you have to teach them in your software how to navigate all that." Brittle, branch-heavy code does not just cost you maintenance. It taxes every agent that touches it. "Plugability is the key. Extensibility is the key. Composability is the key."
 
+In code the contrast is stark. The closed version edits the core for every new case:
+
+```ts
+// Closed: every new tool means another branch in the core.
+function dispatch(name: string, args: Args) {
+  if (name === "search") return search(args);
+  if (name === "format") return format(args);
+  if (name === "lint") return lint(args); // ...and next year, a hundred more
+  throw new Error(`unknown tool: ${name}`);
+}
+```
+
+The open version freezes the core and lets capability register itself, with a default for the unknown case so a missing handler degrades instead of crashing:
+
+```ts
+// Open: the core never changes; tools are added alongside it.
+const tools = new Map<string, Tool>();
+export const registerTool = (name: string, tool: Tool) => tools.set(name, tool);
+
+function dispatch(name: string, args: Args) {
+  return (tools.get(name) ?? passThrough).run(args); // graceful default, never throws
+}
+```
+
 The principle applies to two arenas, not one:
 
 - **Engineering work.** Your agent harness is the prime example: swappable and dynamic, with change-on-the-fly tools, prompts, agents, system prompts, and models.
@@ -31,6 +55,24 @@ The practitioner thesis is a rediscovery of a decades-old, well-named body of pr
 - **Declarative versus programmatic contribution** (VS Code, Eclipse). VS Code makes the two styles explicit: "Contribution Points are a set of JSON declarations that you make in the `contributes` field of the `package.json` Extension Manifest" (declarative, statically discoverable, lazily activated), versus registering at runtime in code (programmatic, dynamic). A mature system often offers both.
 - **Stable abstractions** (Robert C. Martin). Depend in the direction of stability. The thing many plugins depend on, the contract, must be the most stable part of the system. That is what lets a platform promise "the contract will not change."
 
+The two contribution styles, side by side. Declarative lists the contribution in a manifest the host can discover without running any code:
+
+```jsonc
+// package.json — declarative: statically discoverable, lazily activated
+{
+  "contributes": {
+    "tools": [{ "id": "lint", "entry": "./lint.js" }]
+  }
+}
+```
+
+Programmatic registers it at runtime in code, trading static discovery for dynamism:
+
+```ts
+// at load — programmatic: dynamic, registered in code
+host.registerTool("lint", lintTool);
+```
+
 ### Pi as a worked reference
 
 Pi, Mario Zechner's open-source coding-agent harness, is open and closed expressed as a runtime, and a clean public example. It states the stance plainly: a minimal core (the loop, tools, context, sessions) that you extend through TypeScript extensions, skills, prompt templates, and themes, leaving primitives like MCP, sub-agents, and permissions for the user or community to supply. The mechanics map straight onto the lineage:
@@ -43,7 +85,23 @@ Pi, Mario Zechner's open-source coding-agent harness, is open and closed express
 | Composable, shareable units | Skills, prompts, themes, and extensions bundle into Pi packages shipped over npm or git |
 | Swappable on the fly | Hot reload, dynamic registration, runtime model and provider routing |
 
-Every customization is something added alongside the core, gated through an event or a registration API, never a modification of Pi itself. Skills are one of those registered capability types, which connects this to [Skill Design and Management](/working-intel/topics/skill-design-and-management/): a skill's description is the discovery mechanism, the skill-layer analogue of a renderer or tool registry.
+Every customization is something added alongside the core, gated through an event or a registration API, never a modification of Pi itself. A lifecycle hook makes the mechanism-not-policy split concrete: the core ships the seam with no opinion, and an extension supplies the one opinion it wants without touching the loop.
+
+```ts
+// core mechanism: a seam, no policy of its own
+events.on("tool_call", (call, ctx) => {
+  /* extensions may inspect, mutate args, or block — the core does none of this */
+});
+
+// extension policy: one opinion, added without editing the core
+events.on("tool_call", (call, ctx) => {
+  if (call.name === "bash" && /rm -rf/.test(call.args.cmd)) {
+    ctx.block("confirm destructive command first");
+  }
+});
+```
+
+Skills are one of those registered capability types, which connects this to [Skill Design and Management](/working-intel/topics/skill-design-and-management/): a skill's description is the discovery mechanism, the skill-layer analogue of a renderer or tool registry.
 
 ### A seam-decision heuristic
 
@@ -83,4 +141,5 @@ The most useful move when someone says "make it extensible" is to refuse the gen
 
 ## Changelog
 
+- **2026-06-21** — Added inline code examples: the closed-vs-open dispatch contrast (with a graceful default), declarative vs programmatic contribution, and mechanism-via-hook.
 - **2026-06-21** — Topic created. Promoted the "extensibility as a survival property" material out of Agent Infrastructure into its own topic, grounded in the primary sources (the 5 Pillars talk, Pi's public docs, VS Code contribution points, and the canonical plugin-architecture literature) rather than the second-hand synthesis. Added the plugin-architecture lineage, the seam-decision heuristic, and an "Applied in" link to the CI-native review factory build.
