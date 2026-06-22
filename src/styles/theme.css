@@ -1,112 +1,447 @@
-/* Field Notes — Stripe-flavored Starlight theme.
-   Tweaks Starlight's CSS custom properties; no component overrides. */
+/* Working Intelligence — terminal theme.
+   Dark-only: black canvas, amber accent, JetBrains Mono for chrome/metadata,
+   Inter for long-form reading. Built on Starlight's CSS custom properties plus
+   a small set of homepage component classes (.wi-*). No layout re-architecture:
+   the sidebar, search, and on-page TOC stay; they're just reskinned. */
 
-:root {
-	/* Signature accent — Stripe "blurple", with a violet→indigo range. */
-	--sl-color-accent-low: #1c1b4d;
-	--sl-color-accent: #635bff;
-	--sl-color-accent-high: #c7c4ff;
+/* ---- Palette (dark is the only mode; the light block mirrors it so visitors
+   on a light OS preference still get the terminal look) ---- */
+:root,
+:root[data-theme='light'] {
+	--sl-color-accent-low: #3a1c0b; /* deep burnt orange, low-emphasis fills */
+	--sl-color-accent: #d2691e; /* burnt orange, the signature */
+	--sl-color-accent-high: #f29a5b; /* lighter burnt orange, links and accent text */
+	--wi-accent-rgb: 210, 105, 30; /* var(--sl-color-accent) as rgb, for tints */
 
-	--sl-color-white: #ffffff;
-	--sl-color-gray-1: #eceef2;
-	--sl-color-gray-2: #c0c2c7;
-	--sl-color-gray-3: #888b96;
-	--sl-color-gray-4: #545861;
-	--sl-color-gray-5: #353841;
-	--sl-color-gray-6: #24262d;
-	--sl-color-black: #0a0a0f;
+	--sl-color-white: #f4f4f5; /* headings, strongest text */
+	--sl-color-gray-1: #e4e4e7;
+	--sl-color-gray-2: #c2c6cf; /* body text */
+	--sl-color-gray-3: #9aa0ab;
+	--sl-color-gray-4: #6b7180;
+	--sl-color-gray-5: #2b2b30; /* hairlines, borders */
+	--sl-color-gray-6: #161618; /* panel surfaces */
+	--sl-color-gray-7: #0d0d0f;
+	--sl-color-black: #000000; /* page background */
 
-	/* Typography — Inter variable, loaded via @fontsource-variable/inter. */
-	--sl-font: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
-		Roboto, Helvetica, Arial, sans-serif;
+	/* Derived tokens Starlight reads directly */
+	--sl-color-bg: #000000;
+	--sl-color-bg-nav: rgba(0, 0, 0, 0.85);
+	--sl-color-bg-sidebar: #0a0a0a;
+	--sl-color-bg-inline-code: #18181b;
+	--sl-color-hairline-shade: #1c1c1f;
+	--sl-color-hairline: #2b2b30;
+	--sl-color-hairline-light: #2b2b30;
+	--sl-color-text-accent: var(--sl-color-accent-high);
+	--sl-color-text-invert: #000000;
+
+	/* Fonts: Inter for prose, JetBrains Mono for chrome, metadata, and code. */
+	--sl-font: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+		Helvetica, Arial, sans-serif;
+	--wi-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+		monospace;
+	--sl-font-mono: var(--wi-mono);
 
 	--sl-line-height: 1.75;
 	--sl-content-width: 50rem;
 }
 
-/* Light palette */
-:root[data-theme='light'] {
-	--sl-color-accent-low: #dcdaff;
-	--sl-color-accent: #4b45d6;
-	--sl-color-accent-high: #1f1b66;
+/* ---- Chrome in mono (the "terminal" voice) ---- */
 
-	--sl-color-white: #0a0a0f;
-	--sl-color-gray-1: #24262d;
-	--sl-color-gray-2: #353841;
-	--sl-color-gray-3: #545861;
-	--sl-color-gray-4: #888b96;
-	--sl-color-gray-5: #c0c2c7;
-	--sl-color-gray-6: #eceef2;
-	--sl-color-gray-7: #f5f6f8;
-	--sl-color-black: #ffffff;
+/* Site title: uppercase amber wordmark. */
+a.site-title {
+	font-family: var(--wi-mono);
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.12em;
+	font-size: 0.95rem;
+	color: var(--sl-color-accent);
+}
+a.site-title:hover {
+	color: var(--sl-color-accent-high);
 }
 
-/* Tighter, more confident heading rhythm. */
+/* Sidebar (Topics tree) and on-page TOC: compact mono navigation. */
+nav.sidebar-content a,
+nav.sidebar-content .group-label span,
+starlight-toc nav a,
+mobile-starlight-toc nav a {
+	font-family: var(--wi-mono);
+	font-size: 0.82rem;
+	letter-spacing: 0.01em;
+}
+nav.sidebar-content .group-label span,
+starlight-toc h2,
+.right-sidebar h2,
+.sidebar-content summary span.large {
+	font-family: var(--wi-mono);
+	text-transform: uppercase;
+	letter-spacing: 0.12em;
+	font-size: 0.72rem;
+	color: var(--sl-color-accent);
+}
+
+/* Header nav links (Notes, social) and pagination in mono. */
+.sl-nav a,
+.pagination-links a span,
+.pagination-links a {
+	font-family: var(--wi-mono);
+}
+
+/* Persistent top nav in the header (topics / notes / github). */
+.wi-topnav {
+	display: flex;
+	align-items: center;
+	gap: 1.15rem;
+	font-family: var(--wi-mono);
+	font-size: 0.82rem;
+	letter-spacing: 0.02em;
+	white-space: nowrap;
+}
+.wi-topnav__link {
+	color: var(--sl-color-gray-3);
+	text-decoration: none;
+	transition: color 0.15s ease;
+}
+.wi-topnav__link:hover {
+	color: var(--sl-color-accent);
+}
+.wi-topnav__link.is-active {
+	color: var(--sl-color-accent);
+}
+/* The nav lives in the header right-group, which Starlight already hides below
+   50rem (mobile cross-section nav via the menu is a follow-up). */
+
+/* Metadata: last-updated, breadcrumbs, footer. */
+.meta,
+.meta time,
+footer .meta,
+.sl-markdown-content time {
+	font-family: var(--wi-mono);
+	font-size: 0.78rem;
+	color: var(--sl-color-gray-4);
+}
+
+/* ---- Reading content ---- */
+
+/* Tighter, confident headings; amber section rule on h2. */
 .sl-markdown-content h1,
 .sl-markdown-content h2,
 .sl-markdown-content h3 {
-	letter-spacing: -0.02em;
+	letter-spacing: -0.015em;
 	font-weight: 650;
+	color: var(--sl-color-white);
 }
-
 .sl-markdown-content h2 {
 	margin-top: 2.5rem;
 	padding-bottom: 0.4rem;
 	border-bottom: 1px solid var(--sl-color-gray-5);
 }
-
-/* Hero: subtle radial glow behind the splash title. */
-.hero {
-	position: relative;
+/* Links: amber, underline on hover. */
+.sl-markdown-content a {
+	color: var(--sl-color-accent-high);
+	text-underline-offset: 0.2em;
+}
+/* Blockquotes: amber left bar, the "quoted source" feel. */
+.sl-markdown-content blockquote {
+	border-inline-start: 2px solid var(--sl-color-accent);
+	color: var(--sl-color-gray-2);
 }
 
-.hero::before {
-	content: '';
-	position: absolute;
-	inset: -20% -10% auto -10%;
-	height: 120%;
-	background: radial-gradient(
-		60% 60% at 30% 20%,
-		color-mix(in oklab, var(--sl-color-accent) 22%, transparent),
-		transparent 70%
-	);
-	z-index: -1;
-	pointer-events: none;
-	filter: blur(8px);
+/* Custom scrollbar to match the aesthetic. */
+::-webkit-scrollbar {
+	width: 9px;
+	height: 9px;
 }
-
-/* Gradient wash on the splash title. */
-.hero h1 {
-	background: linear-gradient(
-		120deg,
-		var(--sl-color-white),
-		color-mix(in oklab, var(--sl-color-accent) 70%, var(--sl-color-white))
-	);
-	-webkit-background-clip: text;
-	background-clip: text;
-	color: transparent;
-	letter-spacing: -0.03em;
+::-webkit-scrollbar-track {
+	background: #000;
 }
-
-/* Primary CTA buttons: solid accent with a soft lift. */
-.hero .action.primary {
+::-webkit-scrollbar-thumb {
+	background: #333;
+	border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover {
 	background: var(--sl-color-accent);
-	border: none;
-	box-shadow: 0 8px 24px -8px color-mix(in oklab, var(--sl-color-accent) 60%, transparent);
-	transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.hero .action.primary:hover {
-	transform: translateY(-1px);
-	box-shadow: 0 12px 30px -8px color-mix(in oklab, var(--sl-color-accent) 70%, transparent);
+/* =====================================================================
+   Homepage (splash) — terminal hero, module grid, execution log.
+   ===================================================================== */
+
+.wi-hero {
+	border: 1px solid var(--sl-color-gray-5);
+	background: #0a0a0a;
+	border-radius: 4px;
+	overflow: hidden;
+	margin: 0 0 3.5rem;
+	box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.9);
+}
+.wi-hero__bar {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.55rem 0.85rem;
+	background: #111113;
+	border-bottom: 1px solid var(--sl-color-gray-5);
+}
+.wi-hero__dot {
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	display: inline-block;
+}
+.wi-hero__dot--r {
+	background: #ef4444cc;
+}
+.wi-hero__dot--y {
+	background: #eab308cc;
+}
+.wi-hero__dot--g {
+	background: #22c55ecc;
+}
+.wi-hero__file {
+	margin-left: 0.4rem;
+	font-family: var(--wi-mono);
+	font-size: 0.72rem;
+	color: var(--sl-color-gray-4);
+}
+.wi-hero__body {
+	padding: 2rem 1.75rem 2.25rem;
+}
+.wi-hero__title {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin: 0 0 1.25rem;
+	font-family: var(--wi-mono);
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	line-height: 1.2;
+	color: var(--sl-color-white);
+	font-size: clamp(1.4rem, 1rem + 2.2vw, 2.2rem);
+}
+.wi-hero__prompt {
+	color: var(--sl-color-accent);
+}
+.wi-hero__cursor {
+	width: 0.6rem;
+	height: 1.1em;
+	background: var(--sl-color-accent);
+	display: inline-block;
+	animation: wi-blink 1.1s steps(2, start) infinite;
+}
+.wi-hero__tagline {
+	font-family: var(--wi-mono);
+	font-size: 0.92rem;
+	line-height: 1.7;
+	color: var(--sl-color-gray-3);
+	max-width: 62ch;
+	margin: 0;
+}
+.wi-hero__legend {
+	margin: 1.1rem 0 0;
+	font-size: 0.9rem;
+	line-height: 1.65;
+	color: var(--sl-color-gray-4);
+	max-width: 62ch;
+}
+.wi-hero__legend strong {
+	color: var(--sl-color-accent-high);
+	font-weight: 600;
 }
 
-/* Card grid hover polish on the landing page. */
-.card {
-	transition: border-color 0.15s ease, transform 0.15s ease;
+/* Section headers: amber mono kicker + rule. */
+.wi-section {
+	margin: 3.25rem 0;
+}
+.wi-section--first {
+	margin-top: 0.5rem;
+}
+.wi-lede {
+	margin: -0.75rem 0 1.75rem;
+	color: var(--sl-color-gray-3);
+	font-size: 0.95rem;
+	line-height: 1.65;
+	max-width: 62ch;
+}
+.wi-section__head {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	margin-bottom: 1.75rem;
+}
+.wi-section__head h2 {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-family: var(--wi-mono);
+	text-transform: uppercase;
+	letter-spacing: 0.18em;
+	font-size: 0.8rem;
+	font-weight: 700;
+	color: var(--sl-color-accent);
+	white-space: nowrap;
+}
+.wi-section__rule {
+	flex: 1 1 auto;
+	height: 1px;
+	background: var(--sl-color-gray-5);
 }
 
-.card:hover {
+/* Module grid (topics). */
+.wi-grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1.25rem;
+}
+@media (min-width: 42rem) {
+	.wi-grid {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+.wi-card {
+	position: relative;
+	display: block;
+	border: 1px solid var(--sl-color-gray-5);
+	background: #0a0a0a;
+	padding: 1.5rem;
+	text-decoration: none;
+	overflow: hidden;
+	transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.wi-card:hover {
 	border-color: var(--sl-color-accent);
 	transform: translateY(-2px);
+}
+.wi-card__corner {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 1.9rem;
+	height: 1.9rem;
+	display: grid;
+	place-items: center;
+	background: var(--sl-color-gray-6);
+	color: #000;
+	font-family: var(--wi-mono);
+	font-weight: 700;
+	transition: background-color 0.2s ease;
+}
+.wi-card:hover .wi-card__corner {
+	background: var(--sl-color-accent);
+}
+.wi-card__id {
+	display: block;
+	font-family: var(--wi-mono);
+	font-size: 0.7rem;
+	letter-spacing: 0.08em;
+	color: var(--sl-color-gray-4);
+	margin-bottom: 0.85rem;
+}
+.wi-card__title {
+	margin: 0 0 0.55rem;
+	font-family: var(--wi-mono);
+	font-size: 1.12rem;
+	font-weight: 600;
+	color: var(--sl-color-white);
+	transition: color 0.2s ease;
+	padding-right: 1.5rem;
+}
+.wi-card:hover .wi-card__title {
+	color: var(--sl-color-accent);
+}
+.wi-card__desc {
+	margin: 0;
+	font-size: 0.9rem;
+	line-height: 1.6;
+	color: var(--sl-color-gray-3);
+}
+
+/* Execution log (notes timeline). */
+.wi-log {
+	display: flex;
+	flex-direction: column;
+	gap: 2.25rem;
+	border-inline-start: 1px solid var(--sl-color-gray-5);
+	margin-inline-start: 0.5rem;
+	padding-block: 0.25rem;
+}
+.wi-log__entry {
+	position: relative;
+	padding-inline-start: 1.85rem;
+}
+.wi-log__node {
+	position: absolute;
+	inset-inline-start: -5px;
+	top: 0.45rem;
+	width: 9px;
+	height: 9px;
+	border-radius: 50%;
+	background: #000;
+	border: 2px solid var(--sl-color-gray-4);
+}
+.wi-log__node.is-latest {
+	border-color: var(--sl-color-accent);
+	box-shadow: 0 0 0 3px rgba(var(--wi-accent-rgb), 0.18);
+}
+.wi-log__link {
+	display: block;
+	text-decoration: none;
+}
+.wi-log__time {
+	display: inline-block;
+	font-family: var(--wi-mono);
+	font-size: 0.72rem;
+	color: var(--sl-color-accent-high);
+	background: rgba(var(--wi-accent-rgb), 0.13);
+	padding: 0.1rem 0.45rem;
+	border-radius: 2px;
+	margin-bottom: 0.5rem;
+}
+.wi-log__title {
+	margin: 0 0 0.35rem;
+	font-size: 1.1rem;
+	font-weight: 600;
+	color: var(--sl-color-white);
+	transition: color 0.2s ease;
+}
+.wi-log__link:hover .wi-log__title {
+	color: var(--sl-color-accent);
+}
+.wi-log__excerpt {
+	margin: 0;
+	font-size: 0.9rem;
+	line-height: 1.6;
+	color: var(--sl-color-gray-3);
+	max-width: 72ch;
+}
+.wi-log__more {
+	margin: 1.5rem 0 0;
+	padding-inline-start: 1.85rem;
+}
+.wi-log__more a {
+	font-family: var(--wi-mono);
+	font-size: 0.8rem;
+	color: var(--sl-color-gray-4);
+	text-decoration: none;
+}
+.wi-log__more a:hover {
+	color: var(--sl-color-accent);
+}
+
+@keyframes wi-blink {
+	0%,
+	50% {
+		opacity: 1;
+	}
+	50.01%,
+	100% {
+		opacity: 0;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.wi-hero__cursor {
+		animation: none;
+	}
 }
