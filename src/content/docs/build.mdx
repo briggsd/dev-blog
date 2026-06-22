@@ -1,0 +1,19 @@
+---
+title: Build
+description: The workbench — practical application of the ideas. Implementations, architecture diagrams, and build logs.
+template: splash
+head:
+  - tag: style
+    content: '#_top{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}'
+---
+
+import BuildLog from '../../components/BuildLog.astro';
+
+<div class="wi-section wi-section--first">
+	<div class="wi-section__head">
+		<h2>Build_Log</h2>
+		<span class="wi-section__rule"></span>
+	</div>
+	<p class="wi-lede">The workbench. Where the ideas in the topics get applied: implementations, architecture diagrams, and dated build logs of what worked and what broke.</p>
+	<BuildLog />
+</div>

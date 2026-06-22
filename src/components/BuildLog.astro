@@ -1,0 +1,38 @@
+---
+// Dated build-log entries as a timeline, auto-generated from the build
+// collection. Newest first. Mirrors NoteLog but reads the build/ directory.
+import { getCollection } from 'astro:content';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, ''); // "/working-intel"
+const { limit } = Astro.props as { limit?: number };
+let builds = (await getCollection('docs', (e) => e.id.startsWith('build/'))).sort(
+	(a, b) => (b.data.date?.getTime?.() ?? 0) - (a.data.date?.getTime?.() ?? 0)
+);
+if (limit) builds = builds.slice(0, limit);
+const stamp = (d?: Date) => (d ? d.toISOString().slice(0, 10) : '');
+---
+
+<div class="wi-log">
+	{
+		builds.map((b, i) => (
+			<article class="wi-log__entry">
+				<span class={`wi-log__node${i === 0 ? ' is-latest' : ''}`} aria-hidden="true" />
+				<a class="wi-log__link" href={`${base}/${b.id}/`}>
+					<time class="wi-log__time" datetime={stamp(b.data.date)}>
+						[{stamp(b.data.date)}]
+					</time>
+					<h3 class="wi-log__title">{b.data.title}</h3>
+					{b.data.excerpt && <p class="wi-log__excerpt">{b.data.excerpt}</p>}
+				</a>
+			</article>
+		))
+	}
+</div>
+
+{
+	limit && (
+		<p class="wi-log__more">
+			<a href={`${base}/build/`}>&rsaquo; view_all_builds</a>
+		</p>
+	)
+}

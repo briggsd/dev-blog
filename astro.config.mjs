@@ -50,6 +50,10 @@ export default defineConfig({
 					label: 'Topics',
 					items: [{ autogenerate: { directory: 'topics' } }],
 				},
+				{
+					label: 'Build',
+					items: [{ autogenerate: { directory: 'build' } }],
+				},
 			],
 		}),
 	],

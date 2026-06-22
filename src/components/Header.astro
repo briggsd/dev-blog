@@ -21,6 +21,7 @@ const here = Astro.url.pathname.replace(/\/$/, '');
 const navItems = [
 	{ label: 'topics', href: `${base}/topics` },
 	{ label: 'notes', href: `${base}/notes` },
+	{ label: 'build', href: `${base}/build` },
 ];
 const isActive = (href: string) => here === href || here.startsWith(href + '/');
 ---
