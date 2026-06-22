@@ -11,6 +11,7 @@ head:
 
 import TopicGrid from '../../components/TopicGrid.astro';
 import NoteLog from '../../components/NoteLog.astro';
+import BuildLog from '../../components/BuildLog.astro';
 
 <div class="wi-hero">
 	<div class="wi-hero__bar">
@@ -24,14 +25,8 @@ import NoteLog from '../../components/NoteLog.astro';
 			<span class="wi-hero__prompt">&gt;</span> initialize_workspace
 			<span class="wi-hero__cursor" aria-hidden="true"></span>
 		</div>
-		<p class="wi-hero__tagline">
-			Field notes on agentic engineering, AI labor markets, and how software actually gets
-			built now. Written to be read, not just filed away.
-		</p>
-		<p class="wi-hero__legend">
-			<strong>Notes</strong> are the stream, dated and one per source.
-			<strong>Topics</strong> are the garden, evergreen pages that keep evolving as notes feed them.
-		</p>
+		<p class="wi-hero__tagline">Field notes on agentic engineering, AI labor markets, and how software actually gets built now. Written to be read, not just filed away.</p>
+		<p class="wi-hero__legend"><strong>Notes</strong> are the stream, dated and one per source. <strong>Topics</strong> are the garden, evergreen pages that notes feed. <strong>Build</strong> is the workbench, where the ideas get applied in practice.</p>
 	</div>
 </div>
 
@@ -41,6 +36,14 @@ import NoteLog from '../../components/NoteLog.astro';
 		<span class="wi-section__rule"></span>
 	</div>
 	<TopicGrid />
+</section>
+
+<section class="wi-section">
+	<div class="wi-section__head">
+		<h2>Workbench</h2>
+		<span class="wi-section__rule"></span>
+	</div>
+	<BuildLog limit={4} />
 </section>
 
 <section class="wi-section">

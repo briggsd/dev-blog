@@ -124,6 +124,10 @@ The June 2026 lift-proxy audit shifted the priority order. The instinct was to b
 - Section-level lift stays invisible to a proxy that loads whole files. Is doc-level signal plus the topic-validator enough, or is there a cheap way to attribute usefulness to individual concepts?
 - Does the retrieve-before-working rule actually fire? Re-run the proxy in a few weeks: success looks like the write-only pile shrinking and the reference-load count climbing.
 
+## Applied in
+
+- [Building the Capture-to-Publish Pipeline](/working-intel/build/capture-to-publish-pipeline/) — this site's own flywheel made concrete: link → archive → note → topic → build, with the verbatim source kept private as ground truth and an adversarial verifier as the publish gate.
+
 ## Sources
 
 - [Under the River](https://shopify.engineering/under-the-river) — Shopify Engineering. River and Aquifer as a real-world flywheel: the public-corpus mechanism, the codebase as intelligence layer, and pattern-mining from session transcripts.
@@ -135,6 +139,7 @@ The June 2026 lift-proxy audit shifted the priority order. The instinct was to b
 
 ## Changelog
 
+- **2026-06-21** — Added an "Applied in" link to the new build log that implements this flywheel.
 - **2026-06-21** — Migrated to the public site; sanitized and run through the publish pipeline.
 - **2026-06-08** — Added measured usefulness and pruning, and the retrieval gap.
 - **2026-06-01** — Added Shopify's River corpus as a real-world instantiation.

@@ -1,0 +1,84 @@
+---
+title: Building the Capture-to-Publish Pipeline
+date: 2026-06-21
+excerpt: How this site turns a YouTube link or an article into a verified, published note and an evergreen topic, with the verbatim source kept private as ground truth. The architecture, the skills that gate it, and the bugs that bit.
+tags: [build, pipeline, astro, agents]
+---
+
+import Mermaid from '../../../components/Mermaid.astro';
+
+This is the machine behind the rest of the site. Share a link, and it comes out the other end as a
+dated [Note](/working-intel/notes/) and a fold into an evergreen [Topic](/working-intel/topics/), with
+the raw source archived privately so every claim can be checked against ground truth. This is the build
+log for that pipeline: what it does, how it is wired, and where it broke.
+
+**Applies:** [The Knowledge Flywheel](/working-intel/topics/knowledge-flywheel/) — this is that flywheel
+made concrete.
+
+## The flow
+
+Three published artifacts, one private. The source archive is the ground truth the verifier checks
+against; it never ships.
+
+<Mermaid
+	title="Capture → publish, with the gates that guard it"
+	chart={`
+flowchart TD
+    L["link / inbox drop"] --> X["extract<br/>(transcript · webfetch · file)"]
+    X --> A["archive verbatim<br/>(gitignored, private)"]
+    A --> N["Note<br/>dated, + outside perspectives"]
+    N --> T["Topic<br/>evergreen fold"]
+    T --> B["Build<br/>apply it (you are here)"]
+
+    A -. ground truth .-> V{{"claim-verifier<br/>publish gate"}}
+    N --> V
+    T --> TV{{"topic-validator<br/>redundancy"}}
+    V --> P["npm run build → publish"]
+    TV --> P
+    B -. lessons .-> T
+`}
+/>
+
+The loop closes on the dotted line: what a build teaches feeds back into the topic. That is the whole
+point of having a workbench next to the garden.
+
+## Content as data
+
+The homepage grid and these logs are not hand-maintained lists. They read straight from the content
+collections, so a new topic or build shows up with zero edits. The same dozen lines power every index:
+
+```astro
+---
+// src/components/BuildLog.astro
+import { getCollection } from 'astro:content';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, ''); // "/working-intel"
+const builds = (await getCollection('docs', (e) => e.id.startsWith('build/')))
+  .sort((a, b) => (b.data.date?.getTime?.() ?? 0) - (a.data.date?.getTime?.() ?? 0));
+---
+{builds.map((b) => (
+  <a href={`${base}/${b.id}/`}>{b.data.title}</a>
+))}
+```
+
+## What broke
+
+Three bugs worth keeping, because each is the kind that builds without a preview would have shipped:
+
+- **`BASE_URL` has no trailing slash.** Building links as `` `${base}${id}` `` produced
+  `/working-intelbuild/...` and a wall of 404s. The site is served under a base path, so every internal
+  link has to join through a normalized separator. Easy to assume, expensive to miss.
+- **zsh does not word-split unquoted variables.** A `for f in $files` loop over a multi-line file list
+  silently ran once on the whole blob and edited nothing, while a sibling check reported success. Lesson:
+  for bulk file edits, `find -exec` beats a shell loop.
+- **Splash pages still render a page `<h1>`.** The homepage showed a giant "Working Intelligence" title
+  on top of the terminal hero. The fix keeps the semantic heading for screen readers and SEO but hides it
+  visually, leaving one visible title.
+
+## The discipline that matters
+
+The non-negotiable rule is **archive first, write second**. A note and a topic are interpreted artifacts,
+which makes their claims hard to verify later. So the verbatim source is saved at ingestion, the writing
+works from that archive, and an adversarial verifier checks every published claim against it before
+anything ships. The archive stays private; only the sanitized synthesis goes public. Without that order,
+you are grading your own homework.

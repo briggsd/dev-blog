@@ -445,3 +445,37 @@ footer .meta,
 		animation: none;
 	}
 }
+
+/* ---- Mermaid diagrams (build entries) ---- */
+.wi-diagram {
+	margin: 2rem 0;
+	padding: 1.25rem;
+	border: 1px solid var(--sl-color-gray-5);
+	border-radius: 4px;
+	background: #161616;
+	overflow-x: auto;
+}
+.wi-diagram .mermaid {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: none;
+	text-align: center;
+	/* Hide the raw diagram source until Mermaid swaps in the SVG. */
+	visibility: hidden;
+}
+.wi-diagram .mermaid[data-processed='true'] {
+	visibility: visible;
+}
+.wi-diagram .mermaid svg {
+	max-width: 100%;
+	height: auto;
+}
+.wi-diagram__cap {
+	margin-top: 0.85rem;
+	text-align: center;
+	font-family: var(--wi-mono);
+	font-size: 0.75rem;
+	letter-spacing: 0.02em;
+	color: var(--sl-color-gray-4);
+}

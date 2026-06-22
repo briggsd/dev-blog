@@ -2,6 +2,9 @@
 title: Topics
 description: The evergreen garden — multi-source pages that keep evolving as notes feed them.
 template: splash
+head:
+  - tag: style
+    content: '#_top{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}'
 ---
 
 import TopicGrid from '../../components/TopicGrid.astro';
@@ -11,8 +14,6 @@ import TopicGrid from '../../components/TopicGrid.astro';
 		<h2>Available_Modules</h2>
 		<span class="wi-section__rule"></span>
 	</div>
-	<p class="wi-lede">
-		The garden. Evergreen pages, each woven from many notes and revised as new sources land.
-	</p>
+	<p class="wi-lede">The garden. Evergreen pages, each woven from many notes and revised as new sources land.</p>
 	<TopicGrid />
 </div>

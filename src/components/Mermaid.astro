@@ -1,0 +1,46 @@
+---
+// Client-rendered Mermaid diagram, themed to the terminal palette.
+// Usage in an .mdx build entry:
+//   import Mermaid from '../../../components/Mermaid.astro';
+//   <Mermaid title="Capture pipeline" chart={`
+//     flowchart LR
+//       A[source] --> B[note] --> C[topic]
+//   `} />
+const { chart, title } = Astro.props as { chart: string; title?: string };
+---
+
+<figure class="wi-diagram">
+	<pre class="mermaid">{chart.trim()}</pre>
+	{title && <figcaption class="wi-diagram__cap">{title}</figcaption>}
+</figure>
+
+<script>
+	import mermaid from 'mermaid';
+
+	mermaid.initialize({
+		startOnLoad: false,
+		theme: 'base',
+		fontFamily: "'JetBrains Mono Variable', ui-monospace, monospace",
+		themeVariables: {
+			background: '#111111',
+			primaryColor: '#1a1a1a',
+			primaryBorderColor: '#d2691e',
+			primaryTextColor: '#f4f4f5',
+			secondaryColor: '#161618',
+			secondaryBorderColor: '#2b2b30',
+			tertiaryColor: '#161618',
+			tertiaryBorderColor: '#2b2b30',
+			lineColor: '#9aa0ab',
+			textColor: '#c2c6cf',
+			noteBkgColor: '#242427',
+			noteTextColor: '#f4f4f5',
+			noteBorderColor: '#d2691e',
+			clusterBkg: '#161618',
+			clusterBorder: '#2b2b30',
+			edgeLabelBackground: '#111111',
+		},
+	});
+
+	// Render any not-yet-processed diagrams on the page (idempotent).
+	mermaid.run({ querySelector: '.mermaid:not([data-processed="true"])' });
+</script>
