@@ -1,7 +1,8 @@
 # working_intel
 
-A static site for publishing long-running syntheses on AI, agentic engineering,
-and how software gets built now. Built with [Astro](https://astro.build) +
+A working knowledge base on agentic engineering and how AI is reshaping software.
+Dated **notes** synthesize each source, evergreen **topics** compound them, and
+**build logs** put the ideas into practice. Built with [Astro](https://astro.build) +
 [Starlight](https://starlight.astro.build).
 
 This repo is the **publishable home** for the intelligence work — captures,

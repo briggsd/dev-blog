@@ -12,9 +12,9 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: 'working_intel',
-			tagline: 'Field notes on agentic engineering, AI labor markets, and how software gets built now.',
+			tagline: 'A working knowledge base on agentic engineering and how AI is reshaping software.',
 			description:
-				'A running synthesis of how AI is reshaping software, work, and the way products get built.',
+				'Notes that synthesize each source, evergreen topics that compound them, and build logs that put the ideas into practice. A running read on agentic engineering and how software gets built now.',
 			social: [
 				{ icon: 'github', label: 'GitHub', href: 'https://github.com/briggsd/working-intel' },
 			],
