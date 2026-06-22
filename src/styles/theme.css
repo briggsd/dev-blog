@@ -1,4 +1,4 @@
-/* Working Intelligence — terminal theme.
+/* working_intel — terminal theme.
    Dark-only: black canvas, amber accent, JetBrains Mono for chrome/metadata,
    Inter for long-form reading. Built on Starlight's CSS custom properties plus
    a small set of homepage component classes (.wi-*). No layout re-architecture:
@@ -47,12 +47,12 @@
 
 /* ---- Chrome in mono (the "terminal" voice) ---- */
 
-/* Site title: uppercase amber wordmark. */
+/* Site title: lowercase snake_case amber wordmark (working_intel). */
 a.site-title {
 	font-family: var(--wi-mono);
 	font-weight: 700;
-	text-transform: uppercase;
-	letter-spacing: 0.12em;
+	text-transform: none;
+	letter-spacing: 0.02em;
 	font-size: 0.95rem;
 	color: var(--sl-color-accent);
 }

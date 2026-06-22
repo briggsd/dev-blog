@@ -1,4 +1,4 @@
-# Field Notes
+# working_intel
 
 A static site for publishing long-running syntheses on AI, agentic engineering,
 and how software gets built now. Built with [Astro](https://astro.build) +

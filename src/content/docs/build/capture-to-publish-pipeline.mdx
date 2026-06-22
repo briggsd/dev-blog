@@ -71,7 +71,7 @@ Three bugs worth keeping, because each is the kind that builds without a preview
 - **zsh does not word-split unquoted variables.** A `for f in $files` loop over a multi-line file list
   silently ran once on the whole blob and edited nothing, while a sibling check reported success. Lesson:
   for bulk file edits, `find -exec` beats a shell loop.
-- **Splash pages still render a page `<h1>`.** The homepage showed a giant "Working Intelligence" title
+- **Splash pages still render a page `<h1>`.** The homepage showed a giant "working_intel" title
   on top of the terminal hero. The fix keeps the semantic heading for screen readers and SEO but hides it
   visually, leaving one visible title.
 

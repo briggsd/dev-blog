@@ -112,6 +112,6 @@ The mobile analogy sharpens positioning for work that leans on agent-native prim
 
 ## Changelog
 
-- **2026-06-21** — Migrated to the public Working Intelligence site; sanitized and run through the house-style and claim-verification pipeline.
+- **2026-06-21** — Migrated to the public working_intel site; sanitized and run through the house-style and claim-verification pipeline.
 - **2026-06-01** — Refined wording and sources.
 - **2026-05-20** — Topic created: the agent-as-adversary security doctrine, x402 and Coinbase agentic wallets, Stripe shared payment tokens, the cascading attack surface, and MCP as the commerce-infrastructure layer.

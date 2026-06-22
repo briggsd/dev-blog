@@ -72,4 +72,4 @@ This connects to how the labor market is starting to reward leverage over usage.
 
 ## Changelog
 
-- **2026-06-21** — Topic created on the Working Intelligence site: give each agent a job, a diet, boundaries, and a review loop, with a named human owner accountable for its work.
+- **2026-06-21** — Topic created on the working_intel site: give each agent a job, a diet, boundaries, and a review loop, with a named human owner accountable for its work.

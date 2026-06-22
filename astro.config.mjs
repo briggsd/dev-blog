@@ -11,7 +11,7 @@ export default defineConfig({
 	base: '/working-intel',
 	integrations: [
 		starlight({
-			title: 'Working Intelligence',
+			title: 'working_intel',
 			tagline: 'Field notes on agentic engineering, AI labor markets, and how software gets built now.',
 			description:
 				'A running synthesis of how AI is reshaping software, work, and the way products get built.',
@@ -41,7 +41,7 @@ export default defineConfig({
 					// so the plugin should not inject its own link or override components.
 					navigation: 'none',
 					authors: {
-						wi: { name: 'Working Intelligence' },
+						wi: { name: 'working_intel' },
 					},
 				}),
 			],

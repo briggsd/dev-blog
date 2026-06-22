@@ -3,15 +3,15 @@ name: content-synthesis
 description: >
   Synthesize and capture knowledge from external content — YouTube videos, articles, papers, podcasts,
   or raw files dropped in intelligence/_inbox. Archives the verbatim source, then publishes a dated Note
-  (single-source post) and, when warranted, folds the material into an evergreen Topic on the Working
-  Intelligence site. Use whenever the user shares a link and wants to learn from it, says "process this",
+  (single-source post) and, when warranted, folds the material into an evergreen Topic on the working_intel
+  site. Use whenever the user shares a link and wants to learn from it, says "process this",
   "capture this", "what's in this video/article", drops content in intelligence/_inbox, or wants to turn
   consumed content into a published note/topic. Also triggers on "content pipeline", "synthesis",
   "knowledge capture", "digest this". Also drives the guided research loop — "research open questions",
   "dig deeper on [topic]", "run a research cycle", "flywheel".
 ---
 
-# Content Synthesis Skill (Working Intelligence)
+# Content Synthesis Skill (working_intel)
 
 Turn external content into published knowledge. Two published artifacts, one private one:
 

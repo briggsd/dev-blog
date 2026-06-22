@@ -8,7 +8,7 @@ description: >
   after distilling a capture into a topic.
 ---
 
-# Topic Validator (Working Intelligence)
+# Topic Validator (working_intel)
 
 Detect concept-level drift in published topic docs before it compounds.
 

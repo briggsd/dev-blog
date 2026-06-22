@@ -9,7 +9,7 @@ description: >
   and on demand: "verify [note/topic]", "fact-check [x]", "run a verification pass", "is this accurate".
 ---
 
-# Claim Verifier (Working Intelligence)
+# Claim Verifier (working_intel)
 
 The last gate before a topic goes public. Assume each claim is wrong until the sources prove it right.
 The goal is to publish nothing the sources don't actually support.
