@@ -21,12 +21,12 @@
 	--sl-color-gray-5: #2b2b30; /* hairlines, borders */
 	--sl-color-gray-6: #161618; /* panel surfaces */
 	--sl-color-gray-7: #0d0d0f;
-	--sl-color-black: #000000; /* page background */
+	--sl-color-black: #111111; /* page background */
 
 	/* Derived tokens Starlight reads directly */
-	--sl-color-bg: #000000;
-	--sl-color-bg-nav: rgba(0, 0, 0, 0.85);
-	--sl-color-bg-sidebar: #0a0a0a;
+	--sl-color-bg: #111111;
+	--sl-color-bg-nav: rgba(17, 17, 17, 0.85);
+	--sl-color-bg-sidebar: #161616;
 	--sl-color-bg-inline-code: #18181b;
 	--sl-color-hairline-shade: #1c1c1f;
 	--sl-color-hairline: #2b2b30;
@@ -153,7 +153,7 @@ footer .meta,
 	height: 9px;
 }
 ::-webkit-scrollbar-track {
-	background: #000;
+	background: #111;
 }
 ::-webkit-scrollbar-thumb {
 	background: #333;
@@ -169,7 +169,7 @@ footer .meta,
 
 .wi-hero {
 	border: 1px solid var(--sl-color-gray-5);
-	background: #0a0a0a;
+	background: #1a1a1a;
 	border-radius: 4px;
 	overflow: hidden;
 	margin: 0 0 3.5rem;
@@ -180,7 +180,7 @@ footer .meta,
 	align-items: center;
 	gap: 0.5rem;
 	padding: 0.55rem 0.85rem;
-	background: #111113;
+	background: #242427;
 	border-bottom: 1px solid var(--sl-color-gray-5);
 }
 .wi-hero__dot {
@@ -304,7 +304,7 @@ footer .meta,
 	position: relative;
 	display: block;
 	border: 1px solid var(--sl-color-gray-5);
-	background: #0a0a0a;
+	background: #1a1a1a;
 	padding: 1.5rem;
 	text-decoration: none;
 	overflow: hidden;
@@ -378,7 +378,7 @@ footer .meta,
 	width: 9px;
 	height: 9px;
 	border-radius: 50%;
-	background: #000;
+	background: #111;
 	border: 2px solid var(--sl-color-gray-4);
 }
 .wi-log__node.is-latest {
