@@ -1,7 +1,7 @@
 ---
 title: Skill Design and Management
 description: How to build, test, version, and govern agent skills that produce reliable outcomes across the full lifecycle.
-lastUpdated: 2026-06-21
+lastUpdated: 2026-06-22
 ---
 
 Skills produce reliable outcomes when you treat them like software rather than
@@ -112,6 +112,44 @@ decides when, age better than abilities for anything where the timing is the har
 part.
 
 - **Source:** Matt Pocock's agentic engineering workflow (2026-06-21)
+
+### Meta-skills: templating your engineering
+
+A meta-skill produces another artifact (a skill, a prompt, a plan) rather than
+doing the task directly. A planning skill is the canonical case: its output is a
+structured plan document the agent then executes against. The value is that the
+skill encodes how you work into a fixed format the agent reproduces every run, a
+move IndyDevDan calls templating your engineering. Instead of handing the model a
+bare `/plan` and trusting it to guess your house style, you ship a template with a
+set shape: problem and solution in a fixed form, files split into existing and new,
+work broken into phases, each phase carrying a checklist and the validation commands
+that prove it done. The agent fills the slots and leaves the scaffold intact.
+
+This is the procedures stance taken to its conclusion. Pocock keeps the human as
+driver because "I don't want to delegate my thinking to the model," and a planning
+meta-skill is how you encode that thinking once and reuse it. It maps onto the
+knowledge/skills/wisdom split too: the template transfers the knowledge and
+procedure of how you plan, while the judgment of what to build stays with the
+invoker. The compounding-payoff math is the justification, since a planning template
+gets called thousands of times and its structure amortizes across every plan it
+shapes.
+
+Two design details make the pattern hold up. First, the strong version produces a
+living artifact rather than a throwaway: a stateful document with append-only
+metadata (commits, agent, session), back and forward references to other plans, and
+an amendment log, so the plan stays useful over the codebase's life. That puts it in
+the stateful-skill category, with the same need to declare where state lives.
+Second, a rigid template needs a release valve. The standard objection to templating
+is that a fixed format constrains a model that might plan better unconstrained. The
+fix is a freeform section (notes, open questions) where the agent runs without a
+scaffold, alongside the rigid structure everywhere else. The scaffold carries your
+judgment; the open section catches what the template could not anticipate. One
+caveat carries over from [Context Engineering](/working-intel/topics/context-engineering/):
+templating for structure is high-leverage, but padding the template for its own sake
+(verbose formats, decorative tokens) spends the attention budget without buying
+signal. Template for density, not volume.
+
+- **Source:** IndyDevDan's planning meta-skill rebuild (2026-06-22)
 
 ### Three-tier architecture for teams
 
@@ -317,9 +355,11 @@ command, output shape, or trigger language.
 - [Orchestrating AI Code Review at scale](https://blog.cloudflare.com/ai-code-review/) — Ryan Skidmore, Cloudflare. Source for the AGENTS.md freshness reviewer, instruction-file rot signals, and the anti-patterns including generic filler, oversized instruction files, and tool names without runnable commands.
 - [I Ranked Cloudflare's Software Factory and Wow… S TIER TOKENOMICS](https://www.youtube.com/watch?v=YG4t7aMY81c) — YouTube. Commentary critique that shared agents.md surfaces become overloaded and may need workflow-specific instruction scopes.
 - [Matt Pocock's Agentic Engineering Workflow](https://www.youtube.com/watch?v=nQwJVHCtDDY) — YouTube. Source for procedures vs. abilities and the description-leak tax, `disable model invocation: true` as the context-leak lever, stateful vs. stateless skills with `teach` as the stateful exemplar, the knowledge/skills/wisdom decomposition, and the blank-slate reset as a library-hygiene discipline.
+- [PLANS For Fable 5: Rebuilding My /Plan Skill for Mythos Class Models](https://www.youtube.com/watch?v=DzbqeO_diOQ) — IndyDevDan, YouTube. Source for meta-skills and templating your engineering: a planning skill whose output is a structured plan, plans as living stateful artifacts, and the freeform-section release valve. Synthesized in the note [Great Planning, Not Bigger Plans](/working-intel/notes/great-planning-not-bigger-plans/).
 
 ## Changelog
 
+- **2026-06-22** — Added the "Meta-skills: templating your engineering" concept (planning skills that output structured plans, plans as living stateful artifacts, the freeform release valve). Feeds the note [Great Planning, Not Bigger Plans](/working-intel/notes/great-planning-not-bigger-plans/).
 - **2026-06-21** — Migrated to the public site; sanitized and run through the publish pipeline.
 - **2026-06-09** — Added instruction-freshness reviewers.
 - **2026-06-01** — Added conditional rule files and cross-agent sync.
